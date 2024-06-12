@@ -13,10 +13,10 @@ struct LetterView: View {
     
     var body: some View {
         Text(letter)
-            .font(.largeTitle) // Adjust the font size as needed
+            .font(.largeTitle)
             .frame(width: 50, height: 50)
             .background(backgroundColor)
-            .cornerRadius(8) // Optional: if you want rounded corners
+            .cornerRadius(8) 
             .foregroundColor(.white) // Adjust the text color as needed
     }
 }
