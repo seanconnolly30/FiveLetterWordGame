@@ -16,6 +16,8 @@ struct WordView: View {
             .frame(width: 100, height: 10)
             //.foregroundColor(.clear)
             .focusable(true)
+            .disableAutocorrection(true)
+            .autocapitalization(.allCharacters)
             .onChange(of: userInput, { oldValue, newValue in
                 if newValue.count > 5 {
                     userInput = oldValue

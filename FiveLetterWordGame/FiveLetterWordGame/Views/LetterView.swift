@@ -10,7 +10,7 @@ import SwiftUI
 struct LetterView: View {
     var letter: String
     var backgroundColor: Color
-    
+    @EnvironmentObject var charStateDict: DictionaryStore
     var body: some View {
         Text(letter)
             .font(.largeTitle)
