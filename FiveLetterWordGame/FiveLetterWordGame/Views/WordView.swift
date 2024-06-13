@@ -10,33 +10,48 @@ import SwiftUI
 struct WordView: View {
     @State var userInput: String = ""
     @State var isTextFieldActive: Bool
+    @State var isCompletedState: Bool = false
+    @State var numberCorrect: Int = 0
     @Binding var activeGuessIndex: Int
+    
     var body: some View {
-        TextField("Enter", text: $userInput)
+        TextField("", text: $userInput)
             .frame(width: 100, height: 10)
-            //.foregroundColor(.clear)
+            .foregroundColor(.clear)
             .focusable(true)
+            .tint(.clear)
             .disableAutocorrection(true)
             .autocapitalization(.allCharacters)
             .onChange(of: userInput, { oldValue, newValue in
+                let filtered = newValue.filter { $0.isLetter }
+                if filtered != newValue {
+                    userInput = filtered
+                }
                 if newValue.count > 5 {
                     userInput = oldValue
                 }
             })
             .onSubmit {
-                print("Enter button pressed")
+                if userInput.count == 5 { //and word validator
+                    numberCorrect = Int.random(in: 0...5)
+                    isCompletedState = true
+                } else {
+                    //need error state, maybe short red flash if not 5 letters
+                    //and separate larger error if word is not valid
+                }
             }
         HStack {
             ForEach(0..<5, id: \.self) { index in
                 LetterView(letter: getCharacter(at: index), backgroundColor: .gray)
             }
-            NumberView(active: true, number: 4)
+            NumberView(active: isCompletedState, number: numberCorrect)
         }
         .onAppear {
         if isTextFieldActive {
-            // Activate the TextField when the view appears
+            sleep(2)
             DispatchQueue.main.async {
                 UIApplication.shared.sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
+                print("tried to focus")
             }
         }
     }

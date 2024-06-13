@@ -19,6 +19,8 @@ struct NumberView: View {
                 .background(getColor())
                 .cornerRadius(8)
                 .foregroundColor(.white)
+                .overlay(RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.black, lineWidth: 1))
         } else {
             Text("")
                 .font(.largeTitle)
