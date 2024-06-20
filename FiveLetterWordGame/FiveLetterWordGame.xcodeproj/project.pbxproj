@@ -20,6 +20,8 @@
 		4C5E96702C1A175000607AFC /* WordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5E966F2C1A175000607AFC /* WordView.swift */; };
 		4C5E96742C1A21A500607AFC /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5E96732C1A21A500607AFC /* GameView.swift */; };
 		4C5E96762C1A22A100607AFC /* NumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5E96752C1A22A100607AFC /* NumberView.swift */; };
+		4C5E967B2C1B7F6E00607AFC /* WordValidators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5E967A2C1B7F6E00607AFC /* WordValidators.swift */; };
+		4C75A2102C24D7E50026EBC8 /* WordList.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C75A20F2C24D7E50026EBC8 /* WordList.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		4C5E966F2C1A175000607AFC /* WordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordView.swift; sourceTree = "<group>"; };
 		4C5E96732C1A21A500607AFC /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		4C5E96752C1A22A100607AFC /* NumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberView.swift; sourceTree = "<group>"; };
+		4C5E967A2C1B7F6E00607AFC /* WordValidators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordValidators.swift; sourceTree = "<group>"; };
+		4C75A20F2C24D7E50026EBC8 /* WordList.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = WordList.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,10 +110,11 @@
 		4C5E963A2C1256AE00607AFC /* FiveLetterWordGame */ = {
 			isa = PBXGroup;
 			children = (
+				4C75A20E2C24D7BF0026EBC8 /* Resources */,
 				4C5E963B2C1256AE00607AFC /* FiveLetterWordGameApp.swift */,
+				4C5E96792C1B7F5A00607AFC /* Helpers */,
 				4C5E966A2C1A160800607AFC /* Views */,
 				4C5E96672C1259A300607AFC /* Models */,
-				4C5E96412C1256AF00607AFC /* Assets.xcassets */,
 				4C5E96432C1256AF00607AFC /* Preview Content */,
 			);
 			path = FiveLetterWordGame;
@@ -159,6 +164,23 @@
 				4C5E96752C1A22A100607AFC /* NumberView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		4C5E96792C1B7F5A00607AFC /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4C5E967A2C1B7F6E00607AFC /* WordValidators.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		4C75A20E2C24D7BF0026EBC8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4C5E96412C1256AF00607AFC /* Assets.xcassets */,
+				4C75A20F2C24D7E50026EBC8 /* WordList.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C5E96452C1256AF00607AFC /* Preview Assets.xcassets in Resources */,
+				4C75A2102C24D7E50026EBC8 /* WordList.json in Resources */,
 				4C5E96422C1256AF00607AFC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,6 +317,7 @@
 				4C5E963E2C1256AE00607AFC /* ContentView.swift in Sources */,
 				4C5E96402C1256AE00607AFC /* Item.swift in Sources */,
 				4C5E96702C1A175000607AFC /* WordView.swift in Sources */,
+				4C5E967B2C1B7F6E00607AFC /* WordValidators.swift in Sources */,
 				4C5E963C2C1256AE00607AFC /* FiveLetterWordGameApp.swift in Sources */,
 				4C5E96692C1259B600607AFC /* GameStats.swift in Sources */,
 				4C5E966C2C1A162300607AFC /* LetterView.swift in Sources */,

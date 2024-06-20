@@ -13,10 +13,10 @@ struct WordView: View {
     @State var isCompletedState: Bool = false
     @State var numberCorrect: Int = 0
     @Binding var activeGuessIndex: Int
-    
+    var validator = WordValidators()
     var body: some View {
         TextField("", text: $userInput)
-            .frame(width: 100, height: 10)
+            .frame(width: 300, height: 10)
             .foregroundColor(.clear)
             .focusable(true)
             .tint(.clear)
@@ -32,9 +32,10 @@ struct WordView: View {
                 }
             })
             .onSubmit {
-                if userInput.count == 5 { //and word validator
-                    numberCorrect = Int.random(in: 0...5)
+                if userInput.count == 5 && validator.checkGuessValidity(userInput){ //and word validator
+                    numberCorrect = validator.getNumberOfCorrectLetters(guess: userInput)
                     isCompletedState = true
+                    print("entered " + userInput)
                 } else {
                     //need error state, maybe short red flash if not 5 letters
                     //and separate larger error if word is not valid
@@ -46,6 +47,7 @@ struct WordView: View {
             }
             NumberView(active: isCompletedState, number: numberCorrect)
         }
+            .padding(.horizontal)
         .onAppear {
         if isTextFieldActive {
             sleep(2)
