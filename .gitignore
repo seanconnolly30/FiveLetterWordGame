@@ -1,0 +1,35 @@
+# Xcode
+*.xcworkspace/
+*.xcuserdata/
+*.xcuserstate
+*.xcodeproj/xcuserdata/
+*.xcuserdatad/
+*.xccheckout/
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+*.lock
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
+
+# Other
+*.DS_Store
+.idea/
+*.swp
+*.swo
+*.tmp
+*.log
+

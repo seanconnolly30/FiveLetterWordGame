@@ -15,14 +15,16 @@ struct NumberView: View {
         if active {
             Text(String(number))
                 .font(.largeTitle)
-                .frame(width: 50, height: 50)
+                .frame(width: 45, height: 45)
                 .background(getColor())
                 .cornerRadius(8)
                 .foregroundColor(.white)
+                .overlay(RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.black, lineWidth: 2))
         } else {
             Text("")
                 .font(.largeTitle)
-                .frame(width: 50, height: 50)
+                .frame(width: 45, height: 45)
                 .background(.gray)
                 .cornerRadius(8)
                 .foregroundColor(.white)

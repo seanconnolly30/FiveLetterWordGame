@@ -10,11 +10,11 @@ import SwiftUI
 struct LetterView: View {
     var letter: String
     var backgroundColor: Color
-    
+    @EnvironmentObject var charStateDict: DictionaryStore
     var body: some View {
-        Text(letter)
+        Text(letter.uppercased())
             .font(.largeTitle)
-            .frame(width: 50, height: 50)
+            .frame(width: 45, height: 45)
             .background(backgroundColor)
             .cornerRadius(8) 
             .foregroundColor(.white) // Adjust the text color as needed

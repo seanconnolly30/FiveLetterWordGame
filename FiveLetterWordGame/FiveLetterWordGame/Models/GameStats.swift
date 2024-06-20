@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class GameStats {
+final class GameStats {
     var winDistr: [Double]
     var gamesFailed: Int
     var currStreak: Int
