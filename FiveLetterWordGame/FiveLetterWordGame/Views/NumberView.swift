@@ -20,7 +20,7 @@ struct NumberView: View {
                 .cornerRadius(8)
                 .foregroundColor(.white)
                 .overlay(RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.black, lineWidth: 2))
+                        .stroke(Color.gray, lineWidth: 2))
         } else {
             Text("")
                 .font(.largeTitle)

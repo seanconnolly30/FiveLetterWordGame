@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -15,7 +16,34 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             GameView()
-        }
+                .navigationTitle("Five Letter")
+                .frame(alignment: .center)
+                .navigationBarItems(leading:
+                    Button(action: {
+                    // Action for the leading button
+                }) {
+                    Image(systemName: "gear")
+                        .imageScale(.large)
+                        .foregroundColor(.blue)
+                }, trailing:
+                    HStack {
+                        Button(action: {
+                            // Action for stats button
+                        }) {
+                            Image(systemName: "chart.bar.fill")
+                                .imageScale(.large)
+                                .foregroundColor(.blue)
+                        }
+                        Button(action: {
+                            // Action for profile button? maybe just combine it with stats button
+                        }) {
+                            Image(systemName: "person.fill")
+                                .imageScale(.large)
+                                .foregroundColor(.blue)
+                        }
+                    })
+            }
+        .padding()
     }
 
     private func saveGame() {
