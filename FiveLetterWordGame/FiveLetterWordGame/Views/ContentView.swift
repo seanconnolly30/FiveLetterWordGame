@@ -10,12 +10,12 @@ import SwiftData
 import UIKit
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.modelContext) var context
     @Query private var gameStats: [GameStats]
-
+    
     var body: some View {
         NavigationView {
-            GameView()
+            GameView(isGameCompleted: false)
                 .navigationTitle("Five Letter")
                 .frame(alignment: .center)
                 .navigationBarItems(leading:
@@ -37,22 +37,20 @@ struct ContentView: View {
                         Button(action: {
                             // Action for profile button? maybe just combine it with stats button
                         }) {
-                            Image(systemName: "person.fill")
+                            Image(systemName: "info.circle")
                                 .imageScale(.large)
                                 .foregroundColor(.blue)
                         }
                     })
             }
         .padding()
+        .onAppear(perform: {
+            if gameStats.isEmpty {
+                let emptyStats = GameStats(winDistr: Array(repeating: 0, count: 15), gamesFailed: 0, currStreak: 0, bestStreak: 0, totalGameCount: 0, successRate: 0, guessList: [])
+                context.insert(emptyStats)
+            }
+        })
     }
-
-    private func saveGame() {
-        withAnimation {
-            let newItem = GameStats(winDistr: [4,5,8,9,12,5,4], gamesFailed: 0, currStreak: 7, bestStreak: 7, totalGameCount: 7, successRate: 100)
-            modelContext.insert(newItem)
-        }
-    }
-
 }
 
 #Preview {

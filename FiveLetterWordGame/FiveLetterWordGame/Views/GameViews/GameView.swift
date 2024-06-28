@@ -28,15 +28,12 @@ struct GameView: View {
     //@EnvironmentObject var charStateDict: DictionaryStore
     @State var guessList: [(String, Int)] = []
     @FocusState private var isWordViewFocused: Bool
-
+    @State var isGameCompleted: Bool
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack {
-                ForEach(0..<activeGuessIndex, id: \.self) { index in
-                    InactiveWordView(guess: guessList[index].0, numberCorrect: guessList[index].1)
-                }
-                ForEach(activeGuessIndex..<15, id: \.self) { index in
-                    WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex)
+                ForEach(0..<15, id: \.self) { index in
+                    WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
                 }
             }
         }
@@ -45,5 +42,5 @@ struct GameView: View {
 }
 
 #Preview {
-    GameView()
+    GameView(isGameCompleted: false)
 }
