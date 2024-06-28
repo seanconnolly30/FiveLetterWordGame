@@ -36,12 +36,13 @@ class WordValidators {
     func isCorrectWord(_ guess: String) -> Bool {
         if guess == correctWord {
             return true
+            //save Game State into model container
         }
         return false
     }
     
     private func loadWord() -> String{
-            if let url = Bundle.main.url(forResource: "words", withExtension: "json") {
+            if let url = Bundle.main.url(forResource: "WordList", withExtension: "json") {
                 do {
                     let data = try Data(contentsOf: url)
                     let decodedWords = try JSONDecoder().decode([String].self, from: data)

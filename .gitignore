@@ -6,6 +6,7 @@
 *.xcuserdatad/
 *.xccheckout/
 *.xcscmblueprint
+*.xcbkptlist
 
 # Swift Package Manager
 .build/

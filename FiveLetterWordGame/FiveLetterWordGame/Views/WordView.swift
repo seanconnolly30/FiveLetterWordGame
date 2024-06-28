@@ -9,16 +9,20 @@ import SwiftUI
 
 struct WordView: View {
     @State var userInput: String = ""
-    @State var isTextFieldActive: Bool
+    var myIndex: Int
     @State var isCompletedState: Bool = false
     @State var numberCorrect: Int = 0
+    @State private var showError: Bool = false
+    @State private var shakes: CGFloat = 0
+    @FocusState var isFocused: Bool
+    @Binding var guessList: [(String, Int)]
     @Binding var activeGuessIndex: Int
     var validator = WordValidators()
     var body: some View {
         TextField("", text: $userInput)
-            .frame(width: 300, height: 10)
+            .frame(width: 0, height: 0)
             .foregroundColor(.clear)
-            .focusable(true)
+            .focused($isFocused)
             .tint(.clear)
             .disableAutocorrection(true)
             .autocapitalization(.allCharacters)
@@ -32,31 +36,40 @@ struct WordView: View {
                 }
             })
             .onSubmit {
-                if userInput.count == 5 && validator.checkGuessValidity(userInput){ //and word validator
+                if userInput.count == 5 && validator.checkGuessValidity(userInput){
                     numberCorrect = validator.getNumberOfCorrectLetters(guess: userInput)
                     isCompletedState = true
-                    print("entered " + userInput)
+                    activeGuessIndex += 1
+                    guessList.append((userInput, numberCorrect))
                 } else {
-                    //need error state, maybe short red flash if not 5 letters
-                    //and separate larger error if word is not valid
+                    withAnimation(Animation.linear(duration: 0.5).repeatCount(1, autoreverses: false)) {
+                        shakes += 1
+                    }
+                    showError.toggle()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        showError.toggle()
+                        isFocused = true
+                    }
                 }
             }
         HStack {
             ForEach(0..<5, id: \.self) { index in
-                LetterView(letter: getCharacter(at: index), backgroundColor: .gray)
+                LetterView(letter: getCharacter(at: index), backgroundColor: showError ? .red : .gray)
             }
             NumberView(active: isCompletedState, number: numberCorrect)
         }
+            .modifier(ShakeEffect(shakes: shakes))
             .padding(.horizontal)
+        
         .onAppear {
-        if isTextFieldActive {
-            sleep(2)
-            DispatchQueue.main.async {
-                UIApplication.shared.sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
-                print("tried to focus")
-            }
-        }
+            focusTextField()
     }
+        .onChange(of: activeGuessIndex, {
+            focusTextField()
+        })
+        .onTapGesture {
+            focusTextField()
+        }
     }
     private func getCharacter(at index: Int) -> String {
         if index < userInput.count {
@@ -66,9 +79,33 @@ struct WordView: View {
             return ""
         }
     }
+    func focusTextField() {
+        if myIndex == activeGuessIndex {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                print("tried to focus")
+                isFocused = true
+            }
+        }
+    }
 }
 
-#Preview {
-    //@State var activeGuessIndex: Int = 2
-    WordView(isTextFieldActive: true, activeGuessIndex: .constant(2))
+struct ShakeEffect: GeometryEffect {
+    var amount: CGFloat = 10
+    var shakesPerUnit: CGFloat = 3
+    var animatableData: CGFloat
+    
+    init(shakes: CGFloat) {
+        self.animatableData = shakes
+    }
+    
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        let translation = amount * sin(animatableData * .pi * shakesPerUnit)
+        return ProjectionTransform(CGAffineTransform(translationX: translation, y: 0))
+    }
 }
+
+//#Preview {
+//    //@State var activeGuessIndex: Int = 2
+//    //@State var exmpl = [("string", 2)]
+//    WordView(isTextFieldActive: true, guessList: $exmpl, activeGuessIndex: .constant(2))
+//}
