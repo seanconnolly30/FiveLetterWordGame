@@ -20,7 +20,7 @@ struct WordView: View {
     @FocusState var isFocused: Bool
     @Binding var guessList: [(String, Int)]
     @Binding var activeGuessIndex: Int
-    @Binding var isGameCompleted: Bool
+    @Binding var isGameCompleted: GameState
     @Query private var gameStats: [GameStats]
     
     var helper = WordHelper()
@@ -49,12 +49,13 @@ struct WordView: View {
                     if helper.isCorrectWord(userInput){
                         let guessModel = GuessListModel(guesses: guessList.map { $0.0 }, date: .now)
                         gameStats[0].updateGameStats(didWin: true, gameGuessList: guessModel)
-                        isGameCompleted = true
+                        isGameCompleted = GameState.WonState
                         return
                     }
                     else if activeGuessIndex >= 14 {
                         let guessModel = GuessListModel(guesses: guessList.map { $0.0 }, date: .now)
                         gameStats[0].updateGameStats(didWin: false, gameGuessList: guessModel)
+                        isGameCompleted = GameState.LossState
                         return
                     }
                     activeGuessIndex += 1
@@ -97,7 +98,7 @@ struct WordView: View {
         }
     }
     func focusTextField() {
-        if (myIndex == activeGuessIndex) &&  !isCompletedState && !isGameCompleted {
+        if (myIndex == activeGuessIndex) &&  !isCompletedState && isGameCompleted == GameState.ActiveState {
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 isFocused = true
             }

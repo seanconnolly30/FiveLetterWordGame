@@ -17,8 +17,9 @@ final class GameStats {
     var totalGameCount: Int
     var successRate: Int
     var guessList: [GuessListModel]
+    var canPlay: Bool
     
-    init(winDistr: [Int], gamesFailed: Int, currStreak: Int, bestStreak: Int, totalGameCount: Int, successRate: Int, guessList: [GuessListModel]) {
+    init(winDistr: [Int], gamesFailed: Int, currStreak: Int, bestStreak: Int, totalGameCount: Int, successRate: Int, guessList: [GuessListModel], canPlay: Bool) {
         self.winDistr = winDistr
         self.gamesFailed = gamesFailed
         self.currStreak = currStreak
@@ -26,6 +27,7 @@ final class GameStats {
         self.totalGameCount = totalGameCount
         self.successRate = successRate
         self.guessList = guessList
+        self.canPlay = canPlay
     }
     func updateGameStats(didWin: Bool, gameGuessList: GuessListModel) {
         totalGameCount += 1

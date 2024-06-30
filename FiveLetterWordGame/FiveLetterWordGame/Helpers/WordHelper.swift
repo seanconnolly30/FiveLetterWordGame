@@ -11,9 +11,7 @@ import SwiftUI
 
 class WordHelper {
     
-    private lazy var correctWord = {
-        loadWord()
-    }()
+    private var correctWord : String = ""
     
     func checkGuessValidity(_ guess: String) -> Bool{
         let checker = UITextChecker()
@@ -25,6 +23,9 @@ class WordHelper {
     }
     
     func getNumberOfCorrectLetters(guess: String) -> Int {
+        if correctWord.isEmpty {
+            correctWord = loadWord()
+        }
         var count = 0
         for char in Set(guess.lowercased()) {
             if correctWord.contains(char) {
@@ -35,6 +36,9 @@ class WordHelper {
     }
     
     func isCorrectWord(_ guess: String) -> Bool {
+        if correctWord.isEmpty {
+            correctWord = loadWord()
+        }
         if guess.lowercased() == correctWord {
             return true
             //save Game State into model container
@@ -47,8 +51,8 @@ class WordHelper {
                 do {
                     let data = try Data(contentsOf: url)
                     let decodedWords = try JSONDecoder().decode([String].self, from: data)
-                    //return decodedWords[4]
-                    return decodedWords[Int.random(in: 0...19)]
+                    return decodedWords[4]
+                    //return decodedWords[Int.random(in: 0...19)]
                 } catch {
                     print("Error loading JSON: \(error)")
                 }

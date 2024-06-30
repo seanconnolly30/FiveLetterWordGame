@@ -17,18 +17,27 @@ public enum LetterState {
     case SelectedState
 }
 
+public enum GameState {
+    case WonState
+    case LossState
+    case ActiveState
+}
+
 class DictionaryStore: ObservableObject {
     @Published var myDictionary: MyDictionary = ["A": .UntouchedState, "B": .UntouchedState, "C": .UntouchedState, "D": .UntouchedState, "E": .UntouchedState, "F": .UntouchedState, "G": .UntouchedState, "H": .UntouchedState, "I": .UntouchedState, "J": .UntouchedState, "K": .UntouchedState, "L": .UntouchedState, "M": .UntouchedState, "N": .UntouchedState, "O": .UntouchedState, "P": .UntouchedState, "Q": .UntouchedState, "R": .UntouchedState, "S": .UntouchedState, "T": .UntouchedState, "U": .UntouchedState, "V": .UntouchedState, "W": .UntouchedState, "X": .UntouchedState, "Y": .UntouchedState, "Z": .UntouchedState]
 } // make separate keyboard overview mode where user can see letter state, instead of making actual custom keyboard
 //and only show letter state on letters that are inside a guess
 
+//also need validator for if new word is available, and whether game should be locked
 
 struct GameView: View {
     @State var activeGuessIndex: Int = 0
     //@EnvironmentObject var charStateDict: DictionaryStore
     @State var guessList: [(String, Int)] = []
     @FocusState private var isWordViewFocused: Bool
-    @State var isGameCompleted: Bool
+    @State var isGameCompleted: GameState = GameState.ActiveState
+    @Environment(\.modelContext) var context
+    
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack {
@@ -37,10 +46,9 @@ struct GameView: View {
                 }
             }
         }
-        //.padding()
     }
 }
 
 #Preview {
-    GameView(isGameCompleted: false)
+    GameView(isGameCompleted: GameState.ActiveState)
 }

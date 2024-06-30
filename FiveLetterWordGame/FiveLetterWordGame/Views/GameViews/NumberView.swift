@@ -10,7 +10,8 @@ import SwiftUI
 struct NumberView: View {
     var active: Bool
     var number: Int
-
+    //var won: Bool = false
+    
     var body: some View {
         if active {
             Text(String(number))
