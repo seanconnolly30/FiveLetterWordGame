@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct WordView: View {
+    @Environment(\.modelContext) var context
+    
     @State var userInput: String = ""
     var myIndex: Int
     @State var isCompletedState: Bool = false
@@ -17,7 +20,10 @@ struct WordView: View {
     @FocusState var isFocused: Bool
     @Binding var guessList: [(String, Int)]
     @Binding var activeGuessIndex: Int
-    var validator = WordValidators()
+    @Binding var isGameCompleted: GameState
+    @Query private var gameStats: [GameStats]
+    
+    var helper = WordHelper()
     var body: some View {
         TextField("", text: $userInput)
             .frame(width: 0, height: 0)
@@ -36,11 +42,23 @@ struct WordView: View {
                 }
             })
             .onSubmit {
-                if userInput.count == 5 && validator.checkGuessValidity(userInput){
-                    numberCorrect = validator.getNumberOfCorrectLetters(guess: userInput)
+                if userInput.count == 5 && helper.checkGuessValidity(userInput){
+                    numberCorrect = helper.getNumberOfCorrectLetters(guess: userInput)
                     isCompletedState = true
-                    activeGuessIndex += 1
                     guessList.append((userInput, numberCorrect))
+                    if helper.isCorrectWord(userInput){
+                        let guessModel = GuessListModel(guesses: guessList.map { $0.0 }, date: .now)
+                        gameStats[0].updateGameStats(didWin: true, gameGuessList: guessModel)
+                        isGameCompleted = GameState.WonState
+                        return
+                    }
+                    else if activeGuessIndex >= 14 {
+                        let guessModel = GuessListModel(guesses: guessList.map { $0.0 }, date: .now)
+                        gameStats[0].updateGameStats(didWin: false, gameGuessList: guessModel)
+                        isGameCompleted = GameState.LossState
+                        return
+                    }
+                    activeGuessIndex += 1
                 } else {
                     withAnimation(Animation.linear(duration: 0.5).repeatCount(1, autoreverses: false)) {
                         shakes += 1
@@ -80,32 +98,10 @@ struct WordView: View {
         }
     }
     func focusTextField() {
-        if myIndex == activeGuessIndex {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                print("tried to focus")
+        if (myIndex == activeGuessIndex) &&  !isCompletedState && isGameCompleted == GameState.ActiveState {
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
                 isFocused = true
             }
         }
     }
 }
-
-struct ShakeEffect: GeometryEffect {
-    var amount: CGFloat = 10
-    var shakesPerUnit: CGFloat = 3
-    var animatableData: CGFloat
-    
-    init(shakes: CGFloat) {
-        self.animatableData = shakes
-    }
-    
-    func effectValue(size: CGSize) -> ProjectionTransform {
-        let translation = amount * sin(animatableData * .pi * shakesPerUnit)
-        return ProjectionTransform(CGAffineTransform(translationX: translation, y: 0))
-    }
-}
-
-//#Preview {
-//    //@State var activeGuessIndex: Int = 2
-//    //@State var exmpl = [("string", 2)]
-//    WordView(isTextFieldActive: true, guessList: $exmpl, activeGuessIndex: .constant(2))
-//}

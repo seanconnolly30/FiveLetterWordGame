@@ -10,7 +10,8 @@ import SwiftUI
 struct NumberView: View {
     var active: Bool
     var number: Int
-
+    //var won: Bool = false
+    
     var body: some View {
         if active {
             Text(String(number))
@@ -19,8 +20,8 @@ struct NumberView: View {
                 .background(getColor())
                 .cornerRadius(8)
                 .foregroundColor(.white)
-                .overlay(RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.gray, lineWidth: 2))
+                //.overlay(RoundedRectangle(cornerRadius: 8)
+                        //.stroke(Color.gray, lineWidth: 2))
         } else {
             Text("")
                 .font(.largeTitle)
@@ -32,7 +33,7 @@ struct NumberView: View {
         }
     
     private func getColor() -> Color{
-        if number < 2 {
+        if number < 1 {
             return .red
         }
         else if number < 4{

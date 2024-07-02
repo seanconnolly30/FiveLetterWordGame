@@ -10,17 +10,24 @@ import SwiftData
 import UIKit
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.modelContext) var context
     @Query private var gameStats: [GameStats]
-
+    
+    @State private var isStatsPresented = false
+    @State private var isSettingsPresented = false
+    @State private var isInfoPresented = false
+    
+    //need handling for if game has been played today or not, should flow through here into GameView. Add var to GamesStats for last game played?
+    //and then base
+    
     var body: some View {
         NavigationView {
-            GameView()
-                .navigationTitle("Five Letter")
+            GameView(isGameCompleted: GameState.ActiveState)
+                .navigationTitle(StringCentral.contentNavTitle)
                 .frame(alignment: .center)
                 .navigationBarItems(leading:
                     Button(action: {
-                    // Action for the leading button
+                    isSettingsPresented = true
                 }) {
                     Image(systemName: "gear")
                         .imageScale(.large)
@@ -28,31 +35,38 @@ struct ContentView: View {
                 }, trailing:
                     HStack {
                         Button(action: {
-                            // Action for stats button
+                            isStatsPresented = true
                         }) {
-                            Image(systemName: "chart.bar.fill")
+                            Image(systemName: "chart.bar")
                                 .imageScale(.large)
                                 .foregroundColor(.blue)
                         }
                         Button(action: {
-                            // Action for profile button? maybe just combine it with stats button
+                            isInfoPresented = true
                         }) {
-                            Image(systemName: "person.fill")
+                            Image(systemName: "info.circle")
                                 .imageScale(.large)
                                 .foregroundColor(.blue)
                         }
                     })
             }
         .padding()
-    }
-
-    private func saveGame() {
-        withAnimation {
-            let newItem = GameStats(winDistr: [4,5,8,9,12,5,4], gamesFailed: 0, currStreak: 7, bestStreak: 7, totalGameCount: 7, successRate: 100)
-            modelContext.insert(newItem)
+        .onAppear(perform: {
+            if gameStats.isEmpty {
+                let emptyStats = GameStats(winDistr: Array(repeating: 0, count: 15), gamesFailed: 0, currStreak: 0, bestStreak: 0, totalGameCount: 0, successRate: 0, guessList: [], canPlay: true)
+                context.insert(emptyStats)
+            }
+        })
+        .sheet(isPresented: $isStatsPresented) {
+            StatsView()
+        }
+        .sheet(isPresented: $isSettingsPresented) {
+            SettingsView()
+        }
+        .sheet(isPresented: $isInfoPresented) {
+            InfoView()
         }
     }
-
 }
 
 #Preview {
