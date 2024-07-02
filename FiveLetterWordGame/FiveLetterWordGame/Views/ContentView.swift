@@ -23,7 +23,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             GameView(isGameCompleted: GameState.ActiveState)
-                .navigationTitle("Five Letter")
+                .navigationTitle(StringCentral.contentNavTitle)
                 .frame(alignment: .center)
                 .navigationBarItems(leading:
                     Button(action: {

@@ -26,6 +26,7 @@
 		4C75A21A2C2F420E0026EBC8 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A2192C2F420E0026EBC8 /* StatsView.swift */; };
 		4C75A21E2C2F49140026EBC8 /* GuessListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A21D2C2F49140026EBC8 /* GuessListModel.swift */; };
 		4C75A2202C320D8A0026EBC8 /* NavBarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A21F2C320D8A0026EBC8 /* NavBarHelper.swift */; };
+		4C75A2252C34B4240026EBC8 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A2242C34B4240026EBC8 /* Strings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		4C75A2192C2F420E0026EBC8 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		4C75A21D2C2F49140026EBC8 /* GuessListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessListModel.swift; sourceTree = "<group>"; };
 		4C75A21F2C320D8A0026EBC8 /* NavBarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarHelper.swift; sourceTree = "<group>"; };
+		4C75A2242C34B4240026EBC8 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 			children = (
 				4C5E967A2C1B7F6E00607AFC /* WordHelper.swift */,
 				4C75A21F2C320D8A0026EBC8 /* NavBarHelper.swift */,
+				4C75A2242C34B4240026EBC8 /* Strings.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 				4C5E967B2C1B7F6E00607AFC /* WordHelper.swift in Sources */,
 				4C75A2202C320D8A0026EBC8 /* NavBarHelper.swift in Sources */,
 				4C5E963C2C1256AE00607AFC /* FiveLetterWordGameApp.swift in Sources */,
+				4C75A2252C34B4240026EBC8 /* Strings.swift in Sources */,
 				4C5E96692C1259B600607AFC /* GameStats.swift in Sources */,
 				4C75A21E2C2F49140026EBC8 /* GuessListModel.swift in Sources */,
 				4C5E966C2C1A162300607AFC /* LetterView.swift in Sources */,

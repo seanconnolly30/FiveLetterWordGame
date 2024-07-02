@@ -20,7 +20,7 @@ struct StatsView: View {
                     VStack{
                         Text(String(gameStats[0].totalGameCount))
                             .font(.title)
-                        Text("Total Tries")
+                        Text(StringCentral.totaltries)
                             .font(.caption)
                             .multilineTextAlignment(.center)
                     }
@@ -29,7 +29,7 @@ struct StatsView: View {
                     VStack{
                         Text(String(gameStats[0].currStreak))
                             .font(.title)
-                        Text("Current Streak")
+                        Text(StringCentral.currStreak)
                             .font(.caption)
                             .multilineTextAlignment(.center)
                     }
@@ -38,7 +38,7 @@ struct StatsView: View {
                     VStack{
                         Text(String(gameStats[0].bestStreak))
                             .font(.title)
-                        Text("Best Streak")
+                        Text(StringCentral.bestStreak)
                             .font(.caption)
                             .multilineTextAlignment(.center)
                     }
@@ -47,7 +47,7 @@ struct StatsView: View {
                     VStack{
                         Text(String(gameStats[0].successRate) + "%")
                             .font(.title)
-                        Text("Win Rate")
+                        Text(StringCentral.winRate)
                             .font(.caption)
                             .multilineTextAlignment(.center)
                     }
@@ -56,14 +56,14 @@ struct StatsView: View {
                 
                 Chart {
                     ForEach(0..<15, id: \.self) { index in
-                        BarMark(x: .value("Type", String(index + 1)), y: .value("# of Results", gameStats[0].winDistr[index]))
+                        BarMark(x: .value("Type", String(index + 1)), y: .value(StringCentral.numResults, gameStats[0].winDistr[index]))
                     }
                 }
                 .padding()
                 .frame(height: 375)
                 
                 HStack(alignment: .center, content: {
-                    Text("Result Distribution " + "(Average: " + NavBarHelper().getGuessAverage(arr: gameStats[0].winDistr) + ")")
+                    Text(StringCentral.resultDistr + StringCentral.avg + NavBarHelper().getGuessAverage(arr: gameStats[0].winDistr) + ")")
                         .font(.caption)
                         .foregroundColor(.gray)
                     Spacer()
@@ -73,12 +73,11 @@ struct StatsView: View {
                 
                 
                 
-                .navigationBarTitle("Stats", displayMode: .inline)
+                .navigationBarTitle(StringCentral.statsTitle, displayMode: .inline)
                 .navigationBarItems(leading: Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "chevron.left")
-                    Text("Back")
                 })
                 .padding()
                 Spacer()
