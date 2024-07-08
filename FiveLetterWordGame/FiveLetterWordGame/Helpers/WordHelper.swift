@@ -17,8 +17,6 @@ class WordHelper {
         let checker = UITextChecker()
         let range = NSRange(location: 0, length: guess.utf16.count)
         let misspelledRange = checker.rangeOfMisspelledWord(in: guess.lowercased(), range: range, startingAt: 0, wrap: true, language: "en")
-        print(misspelledRange)
-        print(misspelledRange.location == NSNotFound)
         return misspelledRange.location == NSNotFound
     }
     
@@ -44,6 +42,39 @@ class WordHelper {
             //save Game State into model container
         }
         return false
+    }
+    
+    func getGuessAverage(arr: [Int]) -> String {
+        var games = 0.0
+        var total = 0.0
+        for (index, value) in arr.enumerated() {
+            total += (Double(index) + 1.0) * Double(value)
+            games += Double(value)
+        }
+        
+        return String(format: "%.2f", total/games)
+    }
+    
+    func generateShareText(guessList: GuessListModel) -> String {
+        let gameNumber = 820
+        var emojiStr = String(guessList.guesses.count) + "/15 "
+        for guess in guessList.guesses {
+            var numCorrect = getNumberOfCorrectLetters(guess: guess)
+            if numCorrect == 0 {
+                emojiStr += "🟥"
+            }
+            else if numCorrect <= 3 {
+                emojiStr += "🟨"
+            }
+            else if numCorrect >= 4 && !isCorrectWord(guess) {
+                emojiStr += "🟩"
+            }
+            else if isCorrectWord(guess) {
+                emojiStr += "🎉"
+            }
+        }
+        
+        return "High Five #" + String(gameNumber) + " " + emojiStr
     }
     
     private func loadWord() -> String{

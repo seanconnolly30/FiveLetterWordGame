@@ -15,7 +15,7 @@ struct StatsView: View {
     var body: some View {
         NavigationView {
             VStack (alignment: .center, content: {
-                HStack(alignment: .center, content: {
+                HStack(alignment: .top, content: {
                     Spacer()
                     VStack{
                         Text(String(gameStats[0].totalGameCount))
@@ -45,7 +45,7 @@ struct StatsView: View {
                     .frame(width: 60)
                     Spacer()
                     VStack{
-                        Text(String(gameStats[0].successRate) + "%")
+                        Text(String(format: "%.2f", gameStats[0].successRate) + "%")
                             .font(.title)
                         Text(StringCentral.winRate)
                             .font(.caption)
@@ -63,7 +63,7 @@ struct StatsView: View {
                 .frame(height: 375)
                 
                 HStack(alignment: .center, content: {
-                    Text(StringCentral.resultDistr + StringCentral.avg + NavBarHelper().getGuessAverage(arr: gameStats[0].winDistr) + ")")
+                    Text(StringCentral.resultDistr + StringCentral.avg + WordHelper().getGuessAverage(arr: gameStats[0].winDistr) + ")")
                         .font(.caption)
                         .foregroundColor(.gray)
                     Spacer()

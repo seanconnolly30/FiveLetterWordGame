@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import ConfettiSwiftUI
 
 typealias MyDictionary = [Character: LetterState]
 
@@ -36,19 +37,34 @@ struct GameView: View {
     @State var guessList: [(String, Int)] = []
     @FocusState private var isWordViewFocused: Bool
     @State var isGameCompleted: GameState = GameState.ActiveState
+    @Binding var confettiBinding: Int
     @Environment(\.modelContext) var context
+    @State private var isStatsPresented = false
     
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack {
                 ForEach(0..<15, id: \.self) { index in
                     WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
+                        
                 }
             }
+            //.confettiCannon(counter: $confettiBinding, num: 60, confettiSize: 13, rainHeight: CGFloat(1000), fadesOut: false, openingAngle: Angle(degrees: 80), radius: 500.0)
+        }
+        .onChange(of: isGameCompleted) { oldValue, newValue in
+            if newValue == GameState.WonState {
+                confettiBinding += 1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    isStatsPresented = true
+                }
+            }
+        }
+        .sheet(isPresented: $isStatsPresented) {
+            StatsView()
         }
     }
 }
 
-#Preview {
-    GameView(isGameCompleted: GameState.ActiveState)
-}
+//#Preview {
+//    GameView(isGameCompleted: GameState.ActiveState)
+//}

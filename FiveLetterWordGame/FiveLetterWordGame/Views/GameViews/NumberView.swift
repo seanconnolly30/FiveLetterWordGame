@@ -6,22 +6,27 @@
 //
 
 import SwiftUI
+import ConfettiSwiftUI
 
 struct NumberView: View {
     var active: Bool
     var number: Int
-    //var won: Bool = false
+    @State var confettiBinding: Int = 0
     
     var body: some View {
         if active {
-            Text(String(number))
+            Text(number > 5 ? "🎉" : String(number))
                 .font(.largeTitle)
                 .frame(width: 45, height: 45)
                 .background(getColor())
                 .cornerRadius(8)
                 .foregroundColor(.white)
-                //.overlay(RoundedRectangle(cornerRadius: 8)
-                        //.stroke(Color.gray, lineWidth: 2))
+                .confettiCannon(counter: $confettiBinding, radius: 100)
+                .onTapGesture{
+                    if number > 5 {
+                        confettiBinding += 1
+                    }
+                }
         } else {
             Text("")
                 .font(.largeTitle)
@@ -30,16 +35,18 @@ struct NumberView: View {
                 .cornerRadius(8)
                 .foregroundColor(.white)
         }
-        }
+    }
     
     private func getColor() -> Color{
         if number < 1 {
             return .red
         }
-        else if number < 4{
+        else if number < 4 {
             return .yellow
         }
-        else {return .green}
+        else {
+            return .green
+        }
     }
 }
 

@@ -13,6 +13,7 @@ struct WordView: View {
     
     @State var userInput: String = ""
     var myIndex: Int
+    @State var isWinner: Bool = false
     @State var isCompletedState: Bool = false
     @State var numberCorrect: Int = 0
     @State private var showError: Bool = false
@@ -50,6 +51,7 @@ struct WordView: View {
                         let guessModel = GuessListModel(guesses: guessList.map { $0.0 }, date: .now)
                         gameStats[0].updateGameStats(didWin: true, gameGuessList: guessModel)
                         isGameCompleted = GameState.WonState
+                        isWinner = true
                         return
                     }
                     else if activeGuessIndex >= 14 {
@@ -74,7 +76,12 @@ struct WordView: View {
             ForEach(0..<5, id: \.self) { index in
                 LetterView(letter: getCharacter(at: index), backgroundColor: showError ? .red : .gray)
             }
-            NumberView(active: isCompletedState, number: numberCorrect)
+            if isGameCompleted == GameState.WonState && myIndex == activeGuessIndex {
+                NumberView(active: isCompletedState, number: 6)
+            }
+            else {
+                NumberView(active: isCompletedState, number: numberCorrect)
+            }
         }
             .modifier(ShakeEffect(shakes: shakes))
             .padding(.horizontal)

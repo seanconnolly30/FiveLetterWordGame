@@ -15,11 +15,11 @@ final class GameStats {
     var currStreak: Int
     var bestStreak: Int
     var totalGameCount: Int
-    var successRate: Int
+    var successRate: Double
     var guessList: [GuessListModel]
     var canPlay: Bool
     
-    init(winDistr: [Int], gamesFailed: Int, currStreak: Int, bestStreak: Int, totalGameCount: Int, successRate: Int, guessList: [GuessListModel], canPlay: Bool) {
+    init(winDistr: [Int], gamesFailed: Int, currStreak: Int, bestStreak: Int, totalGameCount: Int, successRate: Double, guessList: [GuessListModel], canPlay: Bool) {
         self.winDistr = winDistr
         self.gamesFailed = gamesFailed
         self.currStreak = currStreak
@@ -41,7 +41,7 @@ final class GameStats {
             currStreak = 0
             gamesFailed += 1
         }
-        successRate = (totalGameCount - gamesFailed) / totalGameCount
+        successRate = (Double(totalGameCount) - Double(gamesFailed)) / Double(totalGameCount) * 100.0
         
     }
 }
