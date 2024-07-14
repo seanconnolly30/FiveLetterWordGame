@@ -19,13 +19,10 @@ struct ContentView: View {
     @State private var isInfoPresented = false
     @State var confettiBinding: Int = 0
     
-    @State var isGameCompleted: GameState = GameState.ActiveState
-    //need handling for if game has been played today or not, should flow through here into GameView. Add var to GamesStats for last game played?
-    //and then base
     
     var body: some View {
         NavigationView {
-            GameView(isGameCompleted: isGameCompleted, confettiBinding: $confettiBinding)
+            GameView(isGameCompleted: getGameCompleted(), confettiBinding: $confettiBinding)
                 .navigationTitle(StringCentral.contentNavTitle)
                 .frame(alignment: .center)
                 .confettiCannon(counter: $confettiBinding, num: 60, confettiSize: 13, rainHeight: CGFloat(1000), fadesOut: false, openingAngle: Angle(degrees: 50), closingAngle: Angle(degrees: 130), radius: 500.0, repetitions: 2, repetitionInterval: 0.3)
@@ -62,13 +59,30 @@ struct ContentView: View {
             }
         })
         .sheet(isPresented: $isStatsPresented) {
-            StatsView()
+            StatsView(isGameCompleted: getGameCompleted())
         }
         .sheet(isPresented: $isSettingsPresented) {
             SettingsView()
         }
         .sheet(isPresented: $isInfoPresented) {
             InfoView()
+        }
+    }
+    func getGameCompleted() -> GameState {
+        let date = gameStats[0].mostRecentItem?.date ?? Calendar.current.date(byAdding: .hour, value: -25, to: Date())!
+        let startOfToday = Calendar.current.startOfDay(for: Date())
+        guard let startOfPreviousDay = Calendar.current.date(byAdding: .day, value: -1, to: startOfToday) else {
+            return GameState.ActiveState
+        }
+        
+        if date < startOfToday && date >= startOfPreviousDay {
+            return GameState.ActiveState
+        }
+        else if gameStats[0].currStreak == 0  && gameStats[0].totalGameCount > 0 {
+            return GameState.LossState
+        }
+        else {
+            return GameState.WonState
         }
     }
 }

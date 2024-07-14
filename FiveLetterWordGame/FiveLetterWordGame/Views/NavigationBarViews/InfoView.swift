@@ -37,7 +37,7 @@ struct InfoView: View {
                     Text(StringCentral.tipsList)
                         .multilineTextAlignment(.leading)
                         .padding(.horizontal)
-                    
+
                         .navigationBarTitle(StringCentral.infoViewTitle, displayMode: .inline)
                         .navigationBarItems(leading: Button(action: {
                             presentationMode.wrappedValue.dismiss()

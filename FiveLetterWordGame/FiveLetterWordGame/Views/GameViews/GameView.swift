@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 import ConfettiSwiftUI
+import SwiftData
 
 typealias MyDictionary = [Character: LetterState]
 
@@ -36,21 +37,38 @@ struct GameView: View {
     //@EnvironmentObject var charStateDict: DictionaryStore
     @State var guessList: [(String, Int)] = []
     @FocusState private var isWordViewFocused: Bool
-    @State var isGameCompleted: GameState = GameState.ActiveState
+    @State var isGameCompleted: GameState
     @Binding var confettiBinding: Int
-    @Environment(\.modelContext) var context
     @State private var isStatsPresented = false
+    @Query private var gameStats: [GameStats]
+    
+
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack {
-                ForEach(0..<15, id: \.self) { index in
-                    WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
+            if isGameCompleted == GameState.ActiveState {
+                VStack {
+                    ForEach(0..<15, id: \.self) { index in
+                        WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
                         
+                    }
                 }
+            } else {
+               
+                VStack {
+                    ForEach(0..<15, id: \.self) { index in
+                        WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
+                    }
+                }
+                .onAppear(perform: {
+                    if guessList.isEmpty {
+                        buildGuessList()
+                    }
+                })
+                
             }
-            //.confettiCannon(counter: $confettiBinding, num: 60, confettiSize: 13, rainHeight: CGFloat(1000), fadesOut: false, openingAngle: Angle(degrees: 80), radius: 500.0)
         }
+        
         .onChange(of: isGameCompleted) { oldValue, newValue in
             if newValue == GameState.WonState {
                 confettiBinding += 1
@@ -60,11 +78,20 @@ struct GameView: View {
             }
         }
         .sheet(isPresented: $isStatsPresented) {
-            StatsView()
+            StatsView(isGameCompleted: isGameCompleted)
+        }
+    }
+    
+    func buildGuessList() {
+        for item in gameStats[0].mostRecentItem?.guesses ?? [] {
+            let holder = (item, WordHelper().getNumberOfCorrectLetters(guess: item))
+            if guessList.isEmpty {
+                guessList = [holder]
+            }
+            else {
+                guessList.append(holder)
+            }
         }
     }
 }
 
-//#Preview {
-//    GameView(isGameCompleted: GameState.ActiveState)
-//}

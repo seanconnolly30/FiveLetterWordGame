@@ -42,6 +42,11 @@ final class GameStats {
             gamesFailed += 1
         }
         successRate = (Double(totalGameCount) - Double(gamesFailed)) / Double(totalGameCount) * 100.0
-        
+        guessList.append(gameGuessList)
+        try? self.modelContext?.save() 
+    }
+    
+    var mostRecentItem: GuessListModel? {
+        guessList.max(by: { $0.date < $1.date })
     }
 }

@@ -27,6 +27,7 @@
 		4C75A21E2C2F49140026EBC8 /* GuessListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A21D2C2F49140026EBC8 /* GuessListModel.swift */; };
 		4C75A2252C34B4240026EBC8 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A2242C34B4240026EBC8 /* Strings.swift */; };
 		4C75A22B2C3AFA180026EBC8 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4C75A22A2C3AFA180026EBC8 /* ConfettiSwiftUI */; };
+		4C75A22D2C3C9A260026EBC8 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A22C2C3C9A260026EBC8 /* Color+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		4C75A2192C2F420E0026EBC8 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		4C75A21D2C2F49140026EBC8 /* GuessListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessListModel.swift; sourceTree = "<group>"; };
 		4C75A2242C34B4240026EBC8 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		4C75A22C2C3C9A260026EBC8 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 			children = (
 				4C5E967A2C1B7F6E00607AFC /* WordHelper.swift */,
 				4C75A2242C34B4240026EBC8 /* Strings.swift */,
+				4C75A22C2C3C9A260026EBC8 /* Color+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				4C5E966C2C1A162300607AFC /* LetterView.swift in Sources */,
 				4C5E96742C1A21A500607AFC /* GameView.swift in Sources */,
 				4C75A21A2C2F420E0026EBC8 /* StatsView.swift in Sources */,
+				4C75A22D2C3C9A260026EBC8 /* Color+Extensions.swift in Sources */,
 				4C75A2182C2F42050026EBC8 /* SettingsView.swift in Sources */,
 				4C5E96762C1A22A100607AFC /* NumberView.swift in Sources */,
 			);

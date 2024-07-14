@@ -32,6 +32,7 @@ struct StringCentral {
 • Sometimes zero letters in common is good! This allows you to narrow down the list of possible letters.
 • Try guessing words with repeated letters - it gives the same benefit as using letters you know aren't in the word.
 """
+    static let shareText = "Share with your friends!"
     
     
 }
