@@ -25,7 +25,7 @@ struct FiveLetterWordGameApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(count: 0)
         }
         .modelContainer(sharedModelContainer)
     }

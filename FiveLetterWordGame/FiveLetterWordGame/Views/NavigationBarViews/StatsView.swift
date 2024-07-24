@@ -12,10 +12,11 @@ import Charts
 struct StatsView: View {
     @Query private var gameStats: [GameStats]
     @Environment(\.presentationMode) var presentationMode
+    var isGameCompleted: GameState
     var body: some View {
         NavigationView {
             VStack (alignment: .center, content: {
-                HStack(alignment: .center, content: {
+                HStack(alignment: .top, content: {
                     Spacer()
                     VStack{
                         Text(String(gameStats[0].totalGameCount))
@@ -45,7 +46,7 @@ struct StatsView: View {
                     .frame(width: 60)
                     Spacer()
                     VStack{
-                        Text(String(gameStats[0].successRate) + "%")
+                        Text(String(format: "%.2f", gameStats[0].successRate) + "%")
                             .font(.title)
                         Text(StringCentral.winRate)
                             .font(.caption)
@@ -59,19 +60,15 @@ struct StatsView: View {
                         BarMark(x: .value("Type", String(index + 1)), y: .value(StringCentral.numResults, gameStats[0].winDistr[index]))
                     }
                 }
-                .padding()
+                .padding([.top, .leading, .trailing])
                 .frame(height: 375)
                 
                 HStack(alignment: .center, content: {
-                    Text(StringCentral.resultDistr + StringCentral.avg + NavBarHelper().getGuessAverage(arr: gameStats[0].winDistr) + ")")
+                    Text(StringCentral.resultDistr + StringCentral.avg + WordHelper().getGuessAverage(arr: gameStats[0].winDistr) + ")")
                         .font(.caption)
                         .foregroundColor(.gray)
                     Spacer()
                 })
-               
-                
-                
-                
                 
                 .navigationBarTitle(StringCentral.statsTitle, displayMode: .inline)
                 .navigationBarItems(leading: Button(action: {
@@ -80,6 +77,17 @@ struct StatsView: View {
                     Image(systemName: "chevron.left")
                 })
                 .padding()
+                
+                
+                if let list = gameStats[0].mostRecentItem, isGameCompleted == GameState.WonState {
+                    ShareLink(item: WordHelper().generateShareText(guessList: list)){
+                        Label(StringCentral.shareText, systemImage:  "square.and.arrow.up")
+                            .frame(width: 225, height: 50)
+                            .background(Color(hex: 0x5ba4fc))
+                            .foregroundColor(.white)
+                            .cornerRadius(6)
+                    }
+                }
                 Spacer()
             })
         }

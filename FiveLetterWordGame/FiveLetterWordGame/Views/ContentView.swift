@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import UIKit
+import ConfettiSwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) var context
@@ -16,15 +17,15 @@ struct ContentView: View {
     @State private var isStatsPresented = false
     @State private var isSettingsPresented = false
     @State private var isInfoPresented = false
+    @State var confettiBinding: Int = 0
     
-    //need handling for if game has been played today or not, should flow through here into GameView. Add var to GamesStats for last game played?
-    //and then base
-    
+    @State var count: Int = 0
     var body: some View {
         NavigationView {
-            GameView(isGameCompleted: GameState.ActiveState)
+            GameView(isGameCompleted: getGameCompleted(), confettiBinding: $confettiBinding)
                 .navigationTitle(StringCentral.contentNavTitle)
                 .frame(alignment: .center)
+                .confettiCannon(counter: $confettiBinding, num: 60, confettiSize: 13, rainHeight: CGFloat(1000), fadesOut: false, openingAngle: Angle(degrees: 50), closingAngle: Angle(degrees: 130), radius: 500.0, repetitions: 2, repetitionInterval: 0.3)
                 .navigationBarItems(leading:
                     Button(action: {
                     isSettingsPresented = true
@@ -58,7 +59,7 @@ struct ContentView: View {
             }
         })
         .sheet(isPresented: $isStatsPresented) {
-            StatsView()
+            StatsView(isGameCompleted: getGameCompleted())
         }
         .sheet(isPresented: $isSettingsPresented) {
             SettingsView()
@@ -67,9 +68,24 @@ struct ContentView: View {
             InfoView()
         }
     }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: GameStats.self, inMemory: true)
+    func getGameCompleted() -> GameState {
+        let date = gameStats[0].mostRecentItem?.date ?? Calendar.current.date(byAdding: .hour, value: -25, to: Date())!
+        let startOfToday = Calendar.current.startOfDay(for: Date())
+        guard let startOfPreviousDay = Calendar.current.date(byAdding: .day, value: -1, to: startOfToday) else {
+            return GameState.ActiveState
+        }
+//        if count == 0 {
+//            count = 1
+//            return GameState.ActiveState
+//        }
+        if date < startOfToday && date >= startOfPreviousDay {
+            return GameState.ActiveState
+        }
+        else if gameStats[0].currStreak == 0  && gameStats[0].totalGameCount > 0 {
+            return GameState.LossState
+        }
+        else {
+            return GameState.WonState
+        }
+    }
 }

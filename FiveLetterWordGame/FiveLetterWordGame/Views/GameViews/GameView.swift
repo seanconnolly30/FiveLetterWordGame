@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Combine
+import ConfettiSwiftUI
+import SwiftData
 
 typealias MyDictionary = [Character: LetterState]
 
@@ -35,20 +37,50 @@ struct GameView: View {
     //@EnvironmentObject var charStateDict: DictionaryStore
     @State var guessList: [(String, Int)] = []
     @FocusState private var isWordViewFocused: Bool
-    @State var isGameCompleted: GameState = GameState.ActiveState
-    @Environment(\.modelContext) var context
-    
+    @State var isGameCompleted: GameState
+    @Binding var confettiBinding: Int
+    @State private var isStatsPresented = false
+    @Query private var gameStats: [GameStats]
+
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack {
-                ForEach(0..<15, id: \.self) { index in
-                    WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
+            if isGameCompleted == GameState.ActiveState {
+                VStack {
+                    ForEach(0..<15, id: \.self) { index in
+                        WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
+                    }
+                }
+            } 
+            else {
+                VStack {
+                    ForEach(0..<15, id: \.self) { index in
+                        WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, preFilled: getGuessContentIfNeeded(index: index))
+                    }
                 }
             }
         }
+        
+        
+        .onChange(of: isGameCompleted) { oldValue, newValue in
+            if newValue == GameState.WonState {
+                confettiBinding += 1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    isStatsPresented = true
+                }
+            }
+        }
+        .sheet(isPresented: $isStatsPresented) {
+            StatsView(isGameCompleted: isGameCompleted)
+        }
+    }
+    
+    func getGuessContentIfNeeded(index: Int) -> String {
+        if isGameCompleted != GameState.ActiveState, let guesses = gameStats[0].mostRecentItem?.guesses {
+            if guesses.count > index {
+                return guesses[index]
+            }
+        }
+        return ""
     }
 }
 
-#Preview {
-    GameView(isGameCompleted: GameState.ActiveState)
-}

@@ -25,8 +25,9 @@
 		4C75A2182C2F42050026EBC8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A2172C2F42050026EBC8 /* SettingsView.swift */; };
 		4C75A21A2C2F420E0026EBC8 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A2192C2F420E0026EBC8 /* StatsView.swift */; };
 		4C75A21E2C2F49140026EBC8 /* GuessListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A21D2C2F49140026EBC8 /* GuessListModel.swift */; };
-		4C75A2202C320D8A0026EBC8 /* NavBarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A21F2C320D8A0026EBC8 /* NavBarHelper.swift */; };
 		4C75A2252C34B4240026EBC8 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A2242C34B4240026EBC8 /* Strings.swift */; };
+		4C75A22D2C3C9A260026EBC8 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A22C2C3C9A260026EBC8 /* Color+Extensions.swift */; };
+		4C75A2312C4495800026EBC8 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4C75A2302C4495800026EBC8 /* ConfettiSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,8 +69,8 @@
 		4C75A2172C2F42050026EBC8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4C75A2192C2F420E0026EBC8 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		4C75A21D2C2F49140026EBC8 /* GuessListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessListModel.swift; sourceTree = "<group>"; };
-		4C75A21F2C320D8A0026EBC8 /* NavBarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarHelper.swift; sourceTree = "<group>"; };
 		4C75A2242C34B4240026EBC8 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		4C75A22C2C3C9A260026EBC8 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C75A2312C4495800026EBC8 /* ConfettiSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,8 +180,8 @@
 			isa = PBXGroup;
 			children = (
 				4C5E967A2C1B7F6E00607AFC /* WordHelper.swift */,
-				4C75A21F2C320D8A0026EBC8 /* NavBarHelper.swift */,
 				4C75A2242C34B4240026EBC8 /* Strings.swift */,
+				4C75A22C2C3C9A260026EBC8 /* Color+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -230,6 +232,9 @@
 			dependencies = (
 			);
 			name = FiveLetterWordGame;
+			packageProductDependencies = (
+				4C75A2302C4495800026EBC8 /* ConfettiSwiftUI */,
+			);
 			productName = FiveLetterWordGame;
 			productReference = 4C5E96382C1256AE00607AFC /* FiveLetterWordGame.app */;
 			productType = "com.apple.product-type.application";
@@ -302,6 +307,9 @@
 				Base,
 			);
 			mainGroup = 4C5E962F2C1256AE00607AFC;
+			packageReferences = (
+				4C75A2292C3AFA180026EBC8 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
+			);
 			productRefGroup = 4C5E96392C1256AE00607AFC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -349,7 +357,6 @@
 				4C75A2162C2F41F70026EBC8 /* InfoView.swift in Sources */,
 				4C5E96702C1A175000607AFC /* WordView.swift in Sources */,
 				4C5E967B2C1B7F6E00607AFC /* WordHelper.swift in Sources */,
-				4C75A2202C320D8A0026EBC8 /* NavBarHelper.swift in Sources */,
 				4C5E963C2C1256AE00607AFC /* FiveLetterWordGameApp.swift in Sources */,
 				4C75A2252C34B4240026EBC8 /* Strings.swift in Sources */,
 				4C5E96692C1259B600607AFC /* GameStats.swift in Sources */,
@@ -357,6 +364,7 @@
 				4C5E966C2C1A162300607AFC /* LetterView.swift in Sources */,
 				4C5E96742C1A21A500607AFC /* GameView.swift in Sources */,
 				4C75A21A2C2F420E0026EBC8 /* StatsView.swift in Sources */,
+				4C75A22D2C3C9A260026EBC8 /* Color+Extensions.swift in Sources */,
 				4C75A2182C2F42050026EBC8 /* SettingsView.swift in Sources */,
 				4C5E96762C1A22A100607AFC /* NumberView.swift in Sources */,
 			);
@@ -688,6 +696,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4C75A2292C3AFA180026EBC8 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4C75A2302C4495800026EBC8 /* ConfettiSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C75A2292C3AFA180026EBC8 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
+			productName = ConfettiSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4C5E96302C1256AE00607AFC /* Project object */;
 }
