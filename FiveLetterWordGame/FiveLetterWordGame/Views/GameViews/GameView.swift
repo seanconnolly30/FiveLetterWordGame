@@ -50,12 +50,8 @@ struct GameView: View {
                         WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
                     }
                 }
-                .onAppear(perform: {
-                    if guessList.isEmpty {
-                        buildGuessList()
-                    }
-                })
-            } else {
+            } 
+            else {
                 VStack {
                     ForEach(0..<15, id: \.self) { index in
                         WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, preFilled: getGuessContentIfNeeded(index: index))
@@ -75,18 +71,6 @@ struct GameView: View {
         }
         .sheet(isPresented: $isStatsPresented) {
             StatsView(isGameCompleted: isGameCompleted)
-        }
-    }
-    
-    func buildGuessList() {
-        for item in gameStats[0].mostRecentItem?.guesses ?? [] {
-            let holder = (item, WordHelper().getNumberOfCorrectLetters(guess: item))
-            if guessList.isEmpty {
-                guessList = [holder]
-            }
-            else {
-                guessList.append(holder)
-            }
         }
     }
     
