@@ -22,7 +22,10 @@ class WordHelper {
     
     func getNumberOfCorrectLetters(guess: String) -> Int {
         if correctWord.isEmpty {
-            correctWord = loadWord()
+            correctWord = loadWord().lowercased()
+        }
+        if correctWord == guess.lowercased() {
+            return 6
         }
         var count = 0
         for char in Set(guess.lowercased()) {
@@ -59,7 +62,7 @@ class WordHelper {
         let gameNumber = 820
         var emojiStr = String(guessList.guesses.count) + "/15 "
         for guess in guessList.guesses {
-            var numCorrect = getNumberOfCorrectLetters(guess: guess)
+            let numCorrect = getNumberOfCorrectLetters(guess: guess)
             if numCorrect == 0 {
                 emojiStr += "🟥"
             }

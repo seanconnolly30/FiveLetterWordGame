@@ -19,7 +19,7 @@ struct ContentView: View {
     @State private var isInfoPresented = false
     @State var confettiBinding: Int = 0
     
-    
+    @State var count: Int = 0
     var body: some View {
         NavigationView {
             GameView(isGameCompleted: getGameCompleted(), confettiBinding: $confettiBinding)
@@ -74,7 +74,10 @@ struct ContentView: View {
         guard let startOfPreviousDay = Calendar.current.date(byAdding: .day, value: -1, to: startOfToday) else {
             return GameState.ActiveState
         }
-        
+//        if count == 0 {
+//            count = 1
+//            return GameState.ActiveState
+//        }
         if date < startOfToday && date >= startOfPreviousDay {
             return GameState.ActiveState
         }
@@ -85,9 +88,4 @@ struct ContentView: View {
             return GameState.WonState
         }
     }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: GameStats.self, inMemory: true)
 }

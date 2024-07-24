@@ -23,6 +23,7 @@ struct WordView: View {
     @Binding var activeGuessIndex: Int
     @Binding var isGameCompleted: GameState
     @Query private var gameStats: [GameStats]
+    var preFilled: String = ""
     
     var helper = WordHelper()
     var body: some View {
@@ -76,12 +77,14 @@ struct WordView: View {
             ForEach(0..<5, id: \.self) { index in
                 LetterView(letter: getCharacter(at: index), backgroundColor: showError ? .red : .gray)
             }
-            if isGameCompleted == GameState.WonState && myIndex == activeGuessIndex {
-                NumberView(active: isCompletedState, number: 6)
-            }
-            else {
-                NumberView(active: isCompletedState, number: numberCorrect)
-            }
+            
+            NumberView(active: preFilled.isEmpty ? isCompletedState : true, number: preFilled.isEmpty ? numberCorrect : WordHelper().getNumberOfCorrectLetters(guess: preFilled))
+//            if isGameCompleted != GameState.ActiveState {
+//                NumberView(active: preFilled.isEmpty ? isCompletedState : true, number: preFilled.isEmpty ? numberCorrect : WordHelper().getNumberOfCorrectLetters(guess: preFilled))
+//            }
+//            else {
+//                NumberView(active: isCompletedState, number: numberCorrect )
+//            }
         }
             .modifier(ShakeEffect(shakes: shakes))
             .padding(.horizontal)
@@ -97,11 +100,15 @@ struct WordView: View {
         }
     }
     private func getCharacter(at index: Int) -> String {
-        if index < userInput.count {
-            let charIndex = userInput.index(userInput.startIndex, offsetBy: index)
-            return String(userInput[charIndex])
+        if preFilled.isEmpty {
+            if index < userInput.count {
+                let charIndex = userInput.index(userInput.startIndex, offsetBy: index)
+                return String(userInput[charIndex])
+            } else {
+                return ""
+            }
         } else {
-            return ""
+            return String(preFilled[preFilled.index(preFilled.startIndex, offsetBy: index)])
         }
     }
     func focusTextField() {

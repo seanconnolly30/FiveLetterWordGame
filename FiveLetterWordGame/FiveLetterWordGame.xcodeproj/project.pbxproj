@@ -26,8 +26,8 @@
 		4C75A21A2C2F420E0026EBC8 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A2192C2F420E0026EBC8 /* StatsView.swift */; };
 		4C75A21E2C2F49140026EBC8 /* GuessListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A21D2C2F49140026EBC8 /* GuessListModel.swift */; };
 		4C75A2252C34B4240026EBC8 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A2242C34B4240026EBC8 /* Strings.swift */; };
-		4C75A22B2C3AFA180026EBC8 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4C75A22A2C3AFA180026EBC8 /* ConfettiSwiftUI */; };
 		4C75A22D2C3C9A260026EBC8 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A22C2C3C9A260026EBC8 /* Color+Extensions.swift */; };
+		4C75A2312C4495800026EBC8 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4C75A2302C4495800026EBC8 /* ConfettiSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,7 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C75A22B2C3AFA180026EBC8 /* ConfettiSwiftUI in Frameworks */,
+				4C75A2312C4495800026EBC8 /* ConfettiSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,7 +233,7 @@
 			);
 			name = FiveLetterWordGame;
 			packageProductDependencies = (
-				4C75A22A2C3AFA180026EBC8 /* ConfettiSwiftUI */,
+				4C75A2302C4495800026EBC8 /* ConfettiSwiftUI */,
 			);
 			productName = FiveLetterWordGame;
 			productReference = 4C5E96382C1256AE00607AFC /* FiveLetterWordGame.app */;
@@ -709,7 +709,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4C75A22A2C3AFA180026EBC8 /* ConfettiSwiftUI */ = {
+		4C75A2302C4495800026EBC8 /* ConfettiSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4C75A2292C3AFA180026EBC8 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
 			productName = ConfettiSwiftUI;

@@ -41,20 +41,10 @@ struct GameView: View {
     @Binding var confettiBinding: Int
     @State private var isStatsPresented = false
     @Query private var gameStats: [GameStats]
-    
 
-    
     var body: some View {
         ScrollView(showsIndicators: false) {
             if isGameCompleted == GameState.ActiveState {
-                VStack {
-                    ForEach(0..<15, id: \.self) { index in
-                        WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
-                        
-                    }
-                }
-            } else {
-               
                 VStack {
                     ForEach(0..<15, id: \.self) { index in
                         WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
@@ -65,9 +55,15 @@ struct GameView: View {
                         buildGuessList()
                     }
                 })
-                
+            } else {
+                VStack {
+                    ForEach(0..<15, id: \.self) { index in
+                        WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, preFilled: getGuessContentIfNeeded(index: index))
+                    }
+                }
             }
         }
+        
         
         .onChange(of: isGameCompleted) { oldValue, newValue in
             if newValue == GameState.WonState {
@@ -92,6 +88,15 @@ struct GameView: View {
                 guessList.append(holder)
             }
         }
+    }
+    
+    func getGuessContentIfNeeded(index: Int) -> String {
+        if isGameCompleted != GameState.ActiveState, let guesses = gameStats[0].mostRecentItem?.guesses {
+            if guesses.count > index {
+                return guesses[index]
+            }
+        }
+        return ""
     }
 }
 
