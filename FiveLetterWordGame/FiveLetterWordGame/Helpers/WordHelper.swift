@@ -80,13 +80,32 @@ class WordHelper {
         return "High Five #" + String(gameNumber) + " " + emojiStr
     }
     
+    func getWordColorFromState(dict: DictionaryStore, letter: String) -> Color {
+        if dict[letter] == LetterState.UntouchedState || letter == "" {
+            return .gray
+        }
+        else if dict[letter] == LetterState.EliminatedState {
+            return Color("eliminatedColor")
+        }
+        else if dict[letter] == LetterState.UnsureState {
+            return .yellow
+        }
+        else {
+            return .green
+        }
+    }
+    
     private func loadWord() -> String{
             if let url = Bundle.main.url(forResource: "WordList", withExtension: "json") {
                 do {
                     let data = try Data(contentsOf: url)
                     let decodedWords = try JSONDecoder().decode([String].self, from: data)
-                    return decodedWords[4]
-                    //return decodedWords[Int.random(in: 0...19)]
+                    let index = getMysteryIndex()
+                    if index != -1 {
+                        print(decodedWords[index % decodedWords.count])
+                        return decodedWords[index % decodedWords.count]
+                    }
+                    return "fails"
                 } catch {
                     print("Error loading JSON: \(error)")
                 }
@@ -94,6 +113,30 @@ class WordHelper {
                 return "empty"
             }
         return "wrong"
+    }
+    
+    private func getMysteryIndex() -> Int {
+        if let url = Bundle.main.url(forResource: "MysteryOrder", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decodedInts = try JSONDecoder().decode([Int].self, from: data)
+                
+                let startDay = Calendar.current.date(from: DateComponents(year: 2022, month: 4, day: 1))!
+                var start = Calendar.current.startOfDay(for: startDay)
+                let today = Calendar.current.startOfDay(for: Date())
+                var index = 0
+                while start < today {
+                    index += 1
+                    start = Calendar.current.date(byAdding: .day, value: 1, to: start)!
+                }
+                return Int(decodedInts[index])
+            } catch {
+                print("Error loading JSON: \(error)")
+            }
+        }
+        
+        return -1
+    
     }
     
 }

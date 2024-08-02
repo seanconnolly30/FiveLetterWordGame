@@ -28,28 +28,20 @@ struct ContentView: View {
                 .confettiCannon(counter: $confettiBinding, num: 60, confettiSize: 13, rainHeight: CGFloat(1000), fadesOut: false, openingAngle: Angle(degrees: 50), closingAngle: Angle(degrees: 130), radius: 500.0, repetitions: 2, repetitionInterval: 0.3)
                 .navigationBarItems(leading:
                     Button(action: {
-                    isSettingsPresented = true
+                    isInfoPresented = true
                 }) {
-                    Image(systemName: "gear")
+                    Image(systemName: "info.circle")
                         .imageScale(.large)
                         .foregroundColor(.blue)
                 }, trailing:
-                    HStack {
-                        Button(action: {
-                            isStatsPresented = true
-                        }) {
-                            Image(systemName: "chart.bar")
-                                .imageScale(.large)
-                                .foregroundColor(.blue)
-                        }
-                        Button(action: {
-                            isInfoPresented = true
-                        }) {
-                            Image(systemName: "info.circle")
-                                .imageScale(.large)
-                                .foregroundColor(.blue)
-                        }
-                    })
+                    Button(action: {
+                        isStatsPresented = true
+                    }) {
+                        Image(systemName: "chart.bar")
+                            .imageScale(.large)
+                            .foregroundColor(.blue)
+                    }
+                    )
             }
         .padding()
         .onAppear(perform: {
@@ -71,14 +63,12 @@ struct ContentView: View {
     func getGameCompleted() -> GameState {
         let date = gameStats[0].mostRecentItem?.date ?? Calendar.current.date(byAdding: .hour, value: -25, to: Date())!
         let startOfToday = Calendar.current.startOfDay(for: Date())
-        guard let startOfPreviousDay = Calendar.current.date(byAdding: .day, value: -1, to: startOfToday) else {
-            return GameState.ActiveState
-        }
+        
 //        if count == 0 {
 //            count = 1
 //            return GameState.ActiveState
 //        }
-        if date < startOfToday && date >= startOfPreviousDay {
+        if date < startOfToday {
             return GameState.ActiveState
         }
         else if gameStats[0].currStreak == 0  && gameStats[0].totalGameCount > 0 {
