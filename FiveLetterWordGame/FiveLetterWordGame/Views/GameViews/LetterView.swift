@@ -35,7 +35,7 @@ struct LetterView: View {
             charStateDict[letter] = LetterState.CorrectState
         }
         if currState == LetterState.CorrectState {
-            charStateDict[letter] = LetterState.EliminatedState
+            charStateDict[letter] = LetterState.UntouchedState
         }
     }
 }

@@ -21,7 +21,7 @@ struct StringCentral {
     
     static let infoViewTitle = "How to play"
     static let infoParagraph1 = "Guess the word in 15 tries. After each guess, you will be told only the number of letters in common with the mystery word. Try clicking on letters to change their color and take notes!"
-    static let infoParagraph2 = "Click once to turn a letter grey if you know it's not in the word. Click again for a letter you're uncertain about to become yellow. And click a third time to make letters you're sure about green!"
+    static let infoParagraph2 = "Click once to turn a letter light grey if you know it's not in the word. Click again for a letter you're uncertain about to become yellow. And click a third time to make letters you're sure about green!"
     static let infoLine3 = "For example, if the word is \"VEGAN\""
     static let infoParagraph4 = "Only the 'N' is in the mystery word. It only counts as one letter towards the score, regardless of how many 'N's are in your guess."
     static let infoLine5 = "There are 4 letters in common with the word - every letter except 'U'."

@@ -59,7 +59,14 @@ class WordHelper {
     }
     
     func generateShareText(guessList: GuessListModel) -> String {
-        let gameNumber = 820
+        let startDay = Calendar.current.date(from: DateComponents(year: 2022, month: 4, day: 1))!
+        var start = Calendar.current.startOfDay(for: startDay)
+        let today = Calendar.current.startOfDay(for: Date())
+        var gameNumber = 0
+        while start < today {
+            gameNumber += 1
+            start = Calendar.current.date(byAdding: .day, value: 1, to: start)!
+        }
         var emojiStr = String(guessList.guesses.count) + "/15 "
         for guess in guessList.guesses {
             let numCorrect = getNumberOfCorrectLetters(guess: guess)
