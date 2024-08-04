@@ -109,7 +109,6 @@ class WordHelper {
                     let decodedWords = try JSONDecoder().decode([String].self, from: data)
                     let index = getMysteryIndex()
                     if index != -1 {
-                        print(decodedWords[index % decodedWords.count])
                         return decodedWords[index % decodedWords.count]
                     }
                     return "fails"

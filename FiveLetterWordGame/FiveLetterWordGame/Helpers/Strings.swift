@@ -33,6 +33,8 @@ struct StringCentral {
 • Try guessing words with repeated letters - it gives the same benefit as using letters you know aren't in the word.
 """
     static let shareText = "Share with your friends!"
+    static let contactUs = "Contact us about any bugs, questions or concerns!"
+    static let email = "five.letter.game@gmail.com"
     
     
 }

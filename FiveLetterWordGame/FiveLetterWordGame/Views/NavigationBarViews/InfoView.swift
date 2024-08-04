@@ -44,8 +44,13 @@ struct InfoView: View {
                         }) {
                             Image(systemName: "chevron.left")
                         })
-                    //.padding()
+                    
                     Spacer()
+                    
+                    Text(StringCentral.contactUs)
+                        .padding([.leading, .trailing])
+                        .font(.caption)
+                    Text(try! AttributedString(markdown: StringCentral.email))
                 })
             }
         }
