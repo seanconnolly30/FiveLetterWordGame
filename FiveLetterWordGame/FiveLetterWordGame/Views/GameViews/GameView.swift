@@ -51,7 +51,7 @@ struct GameView: View {
     @Binding var confettiBinding: Int
     @State private var isStatsPresented = false
     @Query private var gameStats: [GameStats]
-
+    @Binding var refresh: Bool
     var body: some View {
         ScrollView(showsIndicators: false) {
             if isGameCompleted == GameState.ActiveState {
@@ -83,6 +83,9 @@ struct GameView: View {
         }
         .sheet(isPresented: $isStatsPresented) {
             StatsView(isGameCompleted: isGameCompleted)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name.NSCalendarDayChanged).receive(on: DispatchQueue.main)) {_ in
+            refresh.toggle()
         }
     }
     

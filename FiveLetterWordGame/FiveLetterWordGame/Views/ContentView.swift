@@ -18,11 +18,12 @@ struct ContentView: View {
     @State private var isSettingsPresented = false
     @State private var isInfoPresented = false
     @State var confettiBinding: Int = 0
+    @State private var refresh = false
     
     @State var count: Int = 0
     var body: some View {
         NavigationView {
-            GameView(isGameCompleted: getGameCompleted(), confettiBinding: $confettiBinding)
+            GameView(isGameCompleted: getGameCompleted(), confettiBinding: $confettiBinding, refresh: $refresh)
                 .navigationTitle(StringCentral.contentNavTitle)
                 .frame(alignment: .center)
                 .confettiCannon(counter: $confettiBinding, num: 60, confettiSize: 13, rainHeight: CGFloat(1000), fadesOut: false, openingAngle: Angle(degrees: 50), closingAngle: Angle(degrees: 130), radius: 500.0, repetitions: 2, repetitionInterval: 0.3)

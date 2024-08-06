@@ -82,9 +82,11 @@ struct WordView: View {
         HStack {
                 ForEach(0..<5, id: \.self) { index in
                     LetterView(letter: getCharacter(at: index), backgroundColor: activeGuessIndex == myIndex ? (showError ? .red : .gray) : (WordHelper().getWordColorFromState(dict: charStateDict, letter: getCharacter(at: index))))
+                        .disabled(!(isGameCompleted == GameState.ActiveState))
                 }
                 
                 NumberView(active: preFilled.isEmpty ? isCompletedState : true, number: preFilled.isEmpty ? numberCorrect : WordHelper().getNumberOfCorrectLetters(guess: preFilled))
+                    .disabled(true)
         }
             .modifier(ShakeEffect(shakes: shakes))
             .padding(.horizontal)
