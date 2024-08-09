@@ -22,6 +22,7 @@ struct WordView: View {
     @Binding var guessList: [(String, Int)]
     @Binding var activeGuessIndex: Int
     @Binding var isGameCompleted: GameState
+    @EnvironmentObject var charStateDict: DictionaryStore
     @Query private var gameStats: [GameStats]
     var preFilled: String = ""
     
@@ -53,6 +54,10 @@ struct WordView: View {
                         gameStats[0].updateGameStats(didWin: true, gameGuessList: guessModel)
                         isGameCompleted = GameState.WonState
                         isWinner = true
+                        activeGuessIndex += 1
+                        for item in Set(userInput) {
+                            charStateDict[String(item)] = LetterState.CorrectState
+                        }
                         return
                     }
                     else if activeGuessIndex >= 14 {
@@ -60,6 +65,11 @@ struct WordView: View {
                         gameStats[0].updateGameStats(didWin: false, gameGuessList: guessModel)
                         isGameCompleted = GameState.LossState
                         return
+                    } 
+                    else if WordHelper().getNumberOfCorrectLetters(guess: userInput) == 0 {
+                        for item in Set(userInput) {
+                            charStateDict[String(item)] = LetterState.EliminatedState
+                        }
                     }
                     activeGuessIndex += 1
                 } else {
@@ -74,17 +84,13 @@ struct WordView: View {
                 }
             }
         HStack {
-            ForEach(0..<5, id: \.self) { index in
-                LetterView(letter: getCharacter(at: index), backgroundColor: showError ? .red : .gray)
-            }
-            
-            NumberView(active: preFilled.isEmpty ? isCompletedState : true, number: preFilled.isEmpty ? numberCorrect : WordHelper().getNumberOfCorrectLetters(guess: preFilled))
-//            if isGameCompleted != GameState.ActiveState {
-//                NumberView(active: preFilled.isEmpty ? isCompletedState : true, number: preFilled.isEmpty ? numberCorrect : WordHelper().getNumberOfCorrectLetters(guess: preFilled))
-//            }
-//            else {
-//                NumberView(active: isCompletedState, number: numberCorrect )
-//            }
+                ForEach(0..<5, id: \.self) { index in
+                    LetterView(letter: getCharacter(at: index), backgroundColor: activeGuessIndex == myIndex ? (showError ? .red : .gray) : (WordHelper().getWordColorFromState(dict: charStateDict, letter: getCharacter(at: index))))
+                        .disabled(!(isGameCompleted == GameState.ActiveState))
+                }
+                
+                NumberView(active: preFilled.isEmpty ? isCompletedState : true, number: preFilled.isEmpty ? numberCorrect : WordHelper().getNumberOfCorrectLetters(guess: preFilled))
+                    .disabled(true)
         }
             .modifier(ShakeEffect(shakes: shakes))
             .padding(.horizontal)

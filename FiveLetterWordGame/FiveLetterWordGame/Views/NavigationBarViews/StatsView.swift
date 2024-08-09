@@ -12,6 +12,7 @@ import Charts
 struct StatsView: View {
     @Query private var gameStats: [GameStats]
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.openURL) var openURL
     var isGameCompleted: GameState
     var body: some View {
         NavigationView {
@@ -88,29 +89,15 @@ struct StatsView: View {
                             .cornerRadius(6)
                     }
                 }
+                
                 Spacer()
+                
+                Text(StringCentral.contactUs)
+                    .padding([.leading, .trailing])
+                    .font(.caption)
+                Text(try! AttributedString(markdown: StringCentral.email))
+
             })
         }
     }
 }
-
-//#Preview {
-//    MainActor.assumeIsolated {
-//        StatsView()
-//            .modelContainer(previewContainer)
-//    }
-//}
-//
-//@MainActor
-//var previewContainer: ModelContainer = {
-//    let schema = Schema([
-//        GameStats.self,
-//    ])
-//    let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-//
-//    do {
-//        return try ModelContainer(for: schema, configurations: [modelConfiguration])
-//    } catch {
-//        fatalError("Could not create ModelContainer: \(error)")
-//    }
-//}()

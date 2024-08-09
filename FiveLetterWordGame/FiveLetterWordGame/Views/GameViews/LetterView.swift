@@ -17,7 +17,26 @@ struct LetterView: View {
             .frame(width: 45, height: 45)
             .background(backgroundColor)
             .cornerRadius(8) 
-            .foregroundColor(.white) // Adjust the text color as needed
+            .foregroundColor(.white) 
+            .onTapGesture {
+                changeLetterState()
+            }
+    }
+    
+    func changeLetterState(){
+        let currState = charStateDict[letter]
+        if currState == LetterState.UntouchedState {
+            charStateDict[letter] = LetterState.EliminatedState
+        }
+        if currState == LetterState.EliminatedState {
+            charStateDict[letter] = LetterState.UnsureState
+        }
+        if currState == LetterState.UnsureState {
+            charStateDict[letter] = LetterState.CorrectState
+        }
+        if currState == LetterState.CorrectState {
+            charStateDict[letter] = LetterState.UntouchedState
+        }
     }
 }
 

@@ -10,13 +10,13 @@ import Combine
 import ConfettiSwiftUI
 import SwiftData
 
-typealias MyDictionary = [Character: LetterState]
+typealias MyDictionary = [String: LetterState]
 
 public enum LetterState {
     case UntouchedState
     case UnsureState
     case EliminatedState
-    case SelectedState
+    case CorrectState
 }
 
 public enum GameState {
@@ -26,22 +26,32 @@ public enum GameState {
 }
 
 class DictionaryStore: ObservableObject {
-    @Published var myDictionary: MyDictionary = ["A": .UntouchedState, "B": .UntouchedState, "C": .UntouchedState, "D": .UntouchedState, "E": .UntouchedState, "F": .UntouchedState, "G": .UntouchedState, "H": .UntouchedState, "I": .UntouchedState, "J": .UntouchedState, "K": .UntouchedState, "L": .UntouchedState, "M": .UntouchedState, "N": .UntouchedState, "O": .UntouchedState, "P": .UntouchedState, "Q": .UntouchedState, "R": .UntouchedState, "S": .UntouchedState, "T": .UntouchedState, "U": .UntouchedState, "V": .UntouchedState, "W": .UntouchedState, "X": .UntouchedState, "Y": .UntouchedState, "Z": .UntouchedState]
-} // make separate keyboard overview mode where user can see letter state, instead of making actual custom keyboard
-//and only show letter state on letters that are inside a guess
-
-//also need validator for if new word is available, and whether game should be locked
+    @Published var myDictionary: MyDictionary
+    @Query private var gameStats: [GameStats]
+    init() {
+        self.myDictionary = ["A": .UntouchedState, "B": .UntouchedState, "C": .UntouchedState, "D": .UntouchedState, "E": .UntouchedState, "F": .UntouchedState, "G": .UntouchedState, "H": .UntouchedState, "I": .UntouchedState, "J": .UntouchedState, "K": .UntouchedState, "L": .UntouchedState, "M": .UntouchedState, "N": .UntouchedState, "O": .UntouchedState, "P": .UntouchedState, "Q": .UntouchedState, "R": .UntouchedState, "S": .UntouchedState, "T": .UntouchedState, "U": .UntouchedState, "V": .UntouchedState, "W": .UntouchedState, "X": .UntouchedState, "Y": .UntouchedState, "Z": .UntouchedState]
+    }
+    
+    subscript(key: String) -> LetterState? {
+        get {
+            return myDictionary[key]
+        }
+        set(newValue) {
+            myDictionary[key] = newValue
+        }
+    }
+}
 
 struct GameView: View {
     @State var activeGuessIndex: Int = 0
-    //@EnvironmentObject var charStateDict: DictionaryStore
+    @StateObject var charStateDict: DictionaryStore = DictionaryStore()
     @State var guessList: [(String, Int)] = []
     @FocusState private var isWordViewFocused: Bool
     @State var isGameCompleted: GameState
     @Binding var confettiBinding: Int
     @State private var isStatsPresented = false
     @Query private var gameStats: [GameStats]
-
+    @Binding var refresh: Bool
     var body: some View {
         ScrollView(showsIndicators: false) {
             if isGameCompleted == GameState.ActiveState {
@@ -49,6 +59,7 @@ struct GameView: View {
                     ForEach(0..<15, id: \.self) { index in
                         WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
                     }
+                    .environmentObject(charStateDict)
                 }
             } 
             else {
@@ -56,6 +67,7 @@ struct GameView: View {
                     ForEach(0..<15, id: \.self) { index in
                         WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, preFilled: getGuessContentIfNeeded(index: index))
                     }
+                    .environmentObject(charStateDict)
                 }
             }
         }
@@ -71,6 +83,9 @@ struct GameView: View {
         }
         .sheet(isPresented: $isStatsPresented) {
             StatsView(isGameCompleted: isGameCompleted)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name.NSCalendarDayChanged).receive(on: DispatchQueue.main)) {_ in
+            refresh.toggle()
         }
     }
     
