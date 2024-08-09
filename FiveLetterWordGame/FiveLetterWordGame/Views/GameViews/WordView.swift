@@ -54,6 +54,10 @@ struct WordView: View {
                         gameStats[0].updateGameStats(didWin: true, gameGuessList: guessModel)
                         isGameCompleted = GameState.WonState
                         isWinner = true
+                        activeGuessIndex += 1
+                        for item in Set(userInput) {
+                            charStateDict[String(item)] = LetterState.CorrectState
+                        }
                         return
                     }
                     else if activeGuessIndex >= 14 {

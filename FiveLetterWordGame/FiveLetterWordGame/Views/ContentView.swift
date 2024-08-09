@@ -12,6 +12,7 @@ import ConfettiSwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) var context
+    @Environment(\.scenePhase) private var scenePhase
     @Query private var gameStats: [GameStats]
     
     @State private var isStatsPresented = false
@@ -44,7 +45,8 @@ struct ContentView: View {
                     }
                     )
             }
-        .padding()
+
+        .padding([.leading, .trailing])
         .sheet(isPresented: $isStatsPresented) {
             StatsView(isGameCompleted: getGameCompleted())
         }
@@ -54,6 +56,11 @@ struct ContentView: View {
         .sheet(isPresented: $isInfoPresented) {
             InfoView()
         }
+        .onChange(of: scenePhase, { oldValue, newValue in
+            if newValue == .active {
+                refresh.toggle()
+            }
+        })
     }
     func getGameCompleted() -> GameState {
         context.autosaveEnabled = true
@@ -64,7 +71,10 @@ struct ContentView: View {
         }
         let date = gameStats[0].mostRecentItem?.date ?? Calendar.current.date(byAdding: .hour, value: -25, to: Date())!
         let startOfToday = Calendar.current.startOfDay(for: Date())
-        
+//        if count == 0 {
+//            count = 1
+//            return GameState.ActiveState
+//        }
         if date < startOfToday {
             return GameState.ActiveState
         }
