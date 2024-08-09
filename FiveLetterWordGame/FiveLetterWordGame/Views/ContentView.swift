@@ -47,6 +47,7 @@ struct ContentView: View {
             }
 
         .padding([.leading, .trailing])
+        .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $isStatsPresented) {
             StatsView(isGameCompleted: getGameCompleted())
         }
