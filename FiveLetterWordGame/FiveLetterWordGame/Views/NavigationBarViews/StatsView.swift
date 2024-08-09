@@ -89,14 +89,14 @@ struct StatsView: View {
                             .cornerRadius(6)
                     }
                 }
-                
                 Spacer()
                 
                 Text(StringCentral.contactUs)
                     .padding([.leading, .trailing])
                     .font(.caption)
                 Text(try! AttributedString(markdown: StringCentral.email))
-
+                    .padding(.bottom)
+                    .font(.caption)
             })
         }
     }
