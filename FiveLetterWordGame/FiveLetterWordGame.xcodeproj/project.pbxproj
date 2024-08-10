@@ -29,6 +29,7 @@
 		4C75A22D2C3C9A260026EBC8 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C75A22C2C3C9A260026EBC8 /* Color+Extensions.swift */; };
 		4C75A2312C4495800026EBC8 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4C75A2302C4495800026EBC8 /* ConfettiSwiftUI */; };
 		4CC0D5BD2C5D71EA00612259 /* MysteryOrder.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CC0D5BC2C5D71EA00612259 /* MysteryOrder.json */; };
+		4CC0D5C02C681E5600612259 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 4CC0D5BF2C681E5600612259 /* index.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		4C75A2242C34B4240026EBC8 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		4C75A22C2C3C9A260026EBC8 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		4CC0D5BC2C5D71EA00612259 /* MysteryOrder.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MysteryOrder.json; sourceTree = "<group>"; };
+		4CC0D5BF2C681E5600612259 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 		4C5E963A2C1256AE00607AFC /* FiveLetterWordGame */ = {
 			isa = PBXGroup;
 			children = (
+				4CC0D5BE2C681E1100612259 /* pages */,
 				4C75A20E2C24D7BF0026EBC8 /* Resources */,
 				4C5E963B2C1256AE00607AFC /* FiveLetterWordGameApp.swift */,
 				4C5E96792C1B7F5A00607AFC /* Helpers */,
@@ -217,6 +220,14 @@
 				4C75A2192C2F420E0026EBC8 /* StatsView.swift */,
 			);
 			path = NavigationBarViews;
+			sourceTree = "<group>";
+		};
+		4CC0D5BE2C681E1100612259 /* pages */ = {
+			isa = PBXGroup;
+			children = (
+				4CC0D5BF2C681E5600612259 /* index.html */,
+			);
+			path = pages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,6 +340,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CC0D5C02C681E5600612259 /* index.html in Resources */,
 				4C5E96452C1256AF00607AFC /* Preview Assets.xcassets in Resources */,
 				4C75A2102C24D7E50026EBC8 /* WordList.json in Resources */,
 				4CC0D5BD2C5D71EA00612259 /* MysteryOrder.json in Resources */,
