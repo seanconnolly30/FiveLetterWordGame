@@ -25,8 +25,19 @@ struct FiveLetterWordGameApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            
+            ContentView(isInfoPresented: isFirstLaunch())
         }
         .modelContainer(sharedModelContainer)
+    }
+    func isFirstLaunch() -> Bool {
+        let hasLaunchedPrev = UserDefaults.standard.bool(forKey: "hasLaunchedPrev")
+        if hasLaunchedPrev {
+            return false
+        }
+        else {
+            UserDefaults.standard.set(true, forKey: "hasLaunchedPrev")
+            return true
+        }
     }
 }

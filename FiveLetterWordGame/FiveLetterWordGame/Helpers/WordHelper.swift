@@ -91,7 +91,7 @@ class WordHelper {
         if dict[letter] == LetterState.UntouchedState || letter == "" {
             return .gray
         }
-        else if dict[letter] == LetterState.EliminatedState {
+        else if dict[letter] == LetterState.EliminatedState ||  dict[letter] == LetterState.SystemEliminatedState {
             return Color("eliminatedColor")
         }
         else if dict[letter] == LetterState.UnsureState {

@@ -17,15 +17,17 @@ struct ContentView: View {
     
     @State private var isStatsPresented = false
     @State private var isSettingsPresented = false
-    @State private var isInfoPresented = false
-    @State var confettiBinding: Int = 0
+    @State var isInfoPresented = false
+    @State private var confettiBinding: Int = 0
     @State private var refresh = false
-    
+    @StateObject var charStateDict: DictionaryStore = DictionaryStore()
+
     @State var count: Int = 0
     var body: some View {
         NavigationView {
             GameView(isGameCompleted: getGameCompleted(), confettiBinding: $confettiBinding, refresh: $refresh)
                 .navigationTitle(StringCentral.contentNavTitle)
+                .environmentObject(charStateDict)
                 .frame(alignment: .center)
                 .confettiCannon(counter: $confettiBinding, num: 60, confettiSize: 13, rainHeight: CGFloat(1000), fadesOut: false, openingAngle: Angle(degrees: 50), closingAngle: Angle(degrees: 130), radius: 500.0, repetitions: 2, repetitionInterval: 0.3)
                 .navigationBarItems(leading:
@@ -36,14 +38,23 @@ struct ContentView: View {
                         .imageScale(.large)
                         .foregroundColor(.blue)
                 }, trailing:
-                    Button(action: {
-                        isStatsPresented = true
-                    }) {
-                        Image(systemName: "chart.bar")
-                            .imageScale(.large)
-                            .foregroundColor(.blue)
+                    HStack {
+                        Button(action: {
+                            isStatsPresented = true
+                        }) {
+                            Image(systemName: "chart.bar")
+                                .imageScale(.large)
+                                .foregroundColor(.blue)
+                        }
+                        Button(action: {
+                            resetCharStatusDict()
+                        }) {
+                            Image(systemName: "gobackward")
+                                .imageScale(.large)
+                                .foregroundColor(.blue)
+                        }
                     }
-                    )
+                )
             }
 
         .padding([.leading, .trailing])
@@ -72,10 +83,6 @@ struct ContentView: View {
         }
         let date = gameStats[0].mostRecentItem?.date ?? Calendar.current.date(byAdding: .hour, value: -25, to: Date())!
         let startOfToday = Calendar.current.startOfDay(for: Date())
-//        if count == 0 {
-//            count = 1
-//            return GameState.ActiveState
-//        }
         if date < startOfToday {
             return GameState.ActiveState
         }
@@ -84,6 +91,16 @@ struct ContentView: View {
         }
         else {
             return GameState.WonState
+        }
+    }
+
+    func resetCharStatusDict() {
+        if getGameCompleted() == GameState.ActiveState {
+            for key in charStateDict.myDictionary.keys {
+                if charStateDict[key] != LetterState.SystemEliminatedState {
+                    charStateDict[key] = LetterState.UntouchedState
+                }
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ public enum LetterState {
     case UnsureState
     case EliminatedState
     case CorrectState
+    case SystemEliminatedState
 }
 
 public enum GameState {
@@ -44,7 +45,6 @@ class DictionaryStore: ObservableObject {
 
 struct GameView: View {
     @State var activeGuessIndex: Int = 0
-    @StateObject var charStateDict: DictionaryStore = DictionaryStore()
     @State var guessList: [(String, Int)] = []
     @FocusState private var isWordViewFocused: Bool
     @State var isGameCompleted: GameState
@@ -59,7 +59,6 @@ struct GameView: View {
                     ForEach(0..<15, id: \.self) { index in
                         WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
                     }
-                    .environmentObject(charStateDict)
                 }
             } 
             else {
@@ -67,7 +66,6 @@ struct GameView: View {
                     ForEach(0..<15, id: \.self) { index in
                         WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, preFilled: getGuessContentIfNeeded(index: index))
                     }
-                    .environmentObject(charStateDict)
                 }
             }
         }
