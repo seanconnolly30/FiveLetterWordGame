@@ -19,7 +19,7 @@ struct NumberView: View {
                 .font(.largeTitle)
                 .frame(width: 45, height: 45)
                 .background(getColor())
-                .cornerRadius(8)
+                .cornerRadius(22.5)
                 .foregroundColor(.white)
                 .confettiCannon(counter: $confettiBinding, radius: 100)
                 .onTapGesture{
@@ -32,7 +32,7 @@ struct NumberView: View {
                 .font(.largeTitle)
                 .frame(width: 45, height: 45)
                 .background(.gray)
-                .cornerRadius(8)
+                .cornerRadius(22.5)
                 .foregroundColor(.white)
         }
     }

@@ -68,7 +68,7 @@ struct WordView: View {
                     } 
                     else if WordHelper().getNumberOfCorrectLetters(guess: userInput) == 0 {
                         for item in Set(userInput) {
-                            charStateDict[String(item)] = LetterState.EliminatedState
+                            charStateDict[String(item)] = LetterState.SystemEliminatedState
                         }
                     }
                     activeGuessIndex += 1
@@ -88,7 +88,10 @@ struct WordView: View {
                     LetterView(letter: getCharacter(at: index), backgroundColor: activeGuessIndex == myIndex ? (showError ? .red : .gray) : (WordHelper().getWordColorFromState(dict: charStateDict, letter: getCharacter(at: index))))
                         .disabled(!(isGameCompleted == GameState.ActiveState))
                 }
-                
+            
+                Divider()
+                    .frame(height: 40)
+            
                 NumberView(active: preFilled.isEmpty ? isCompletedState : true, number: preFilled.isEmpty ? numberCorrect : WordHelper().getNumberOfCorrectLetters(guess: preFilled))
                     .disabled(true)
         }
