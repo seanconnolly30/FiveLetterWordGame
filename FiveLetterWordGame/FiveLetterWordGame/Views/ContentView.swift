@@ -19,13 +19,13 @@ struct ContentView: View {
     @State private var isSettingsPresented = false
     @State var isInfoPresented = false
     @State private var confettiBinding: Int = 0
-    @State private var refresh = false
     @StateObject var charStateDict: DictionaryStore = DictionaryStore()
-
+    @State private var isGameCompleted : GameState = GameState.ActiveState
+    @State var firstLaunch: Bool = false
     @State var count: Int = 0
     var body: some View {
         NavigationView {
-            GameView(isGameCompleted: getGameCompleted(), confettiBinding: $confettiBinding, refresh: $refresh)
+            GameView(isGameCompleted: $isGameCompleted, confettiBinding: $confettiBinding)
                 .navigationTitle(StringCentral.contentNavTitle)
                 .environmentObject(charStateDict)
                 .frame(alignment: .center)
@@ -66,13 +66,21 @@ struct ContentView: View {
             SettingsView()
         }
         .sheet(isPresented: $isInfoPresented) {
-            InfoView()
+                InfoView()
         }
+
         .onChange(of: scenePhase, { oldValue, newValue in
             if newValue == .active {
-                refresh.toggle()
+                isGameCompleted = getGameCompleted()
             }
         })
+        .onAppear {
+            if firstLaunch {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                    isInfoPresented = true
+                }
+            }
+        }
     }
     func getGameCompleted() -> GameState {
         context.autosaveEnabled = true

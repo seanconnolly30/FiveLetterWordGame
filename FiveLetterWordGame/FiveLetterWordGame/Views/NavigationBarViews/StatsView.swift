@@ -88,6 +88,9 @@ struct StatsView: View {
                             .foregroundColor(.white)
                             .cornerRadius(6)
                     }
+                } else if isGameCompleted == GameState.LossState {
+                    Text(StringCentral.todaysWord + WordHelper().getWord())
+                        .font(.caption)
                 }
                 Spacer()
                 

@@ -35,6 +35,7 @@ struct StringCentral {
     static let shareText = "Share with your friends!"
     static let contactUs = "Contact us about any bugs, questions or concerns!"
     static let email = "five.letter.game@gmail.com"
+    static let todaysWord = "Today's word was: "
     
     
 }

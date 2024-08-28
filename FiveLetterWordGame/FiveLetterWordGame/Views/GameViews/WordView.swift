@@ -100,7 +100,7 @@ struct WordView: View {
         
         .onAppear {
             focusTextField()
-    }
+        }
         .onChange(of: activeGuessIndex, {
             focusTextField()
         })

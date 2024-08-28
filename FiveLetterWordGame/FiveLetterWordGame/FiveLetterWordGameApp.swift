@@ -25,8 +25,7 @@ struct FiveLetterWordGameApp: App {
 
     var body: some Scene {
         WindowGroup {
-            
-            ContentView(isInfoPresented: isFirstLaunch())
+            ContentView(firstLaunch: isFirstLaunch())
         }
         .modelContainer(sharedModelContainer)
     }
