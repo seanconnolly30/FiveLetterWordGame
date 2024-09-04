@@ -85,14 +85,16 @@ struct ContentView: View {
     func getGameCompleted() -> GameState {
         context.autosaveEnabled = true
         if gameStats.isEmpty {
-            let emptyStats = GameStats(winDistr: Array(repeating: 0, count: 15), gamesFailed: 0, currStreak: 0, bestStreak: 0, totalGameCount: 0, successRate: 0, guessList: [], canPlay: true)
+            let emptyStats = GameStats(winDistr: Array(repeating: 0, count: 15), gamesFailed: 0, currStreak: 0, bestStreak: 0, totalGameCount: 0, successRate: 0, guessList: [],lastIsUnfinished: false)
             context.insert(emptyStats)
             try! context.save()
         }
         let date = gameStats[0].mostRecentItem?.date ?? Calendar.current.date(byAdding: .hour, value: -25, to: Date())!
         let startOfToday = Calendar.current.startOfDay(for: Date())
-        return GameState.ActiveState
+        // return GameState.ActiveState
         if date < startOfToday {
+            gameStats[0].lastIsUnfinished = false
+            try! context.save()
             return GameState.ActiveState
         }
         else if gameStats[0].currStreak == 0  && gameStats[0].totalGameCount > 0 {

@@ -44,6 +44,7 @@ class DictionaryStore: ObservableObject {
 }
 
 struct GameView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @State var activeGuessIndex: Int = 0
     @State var guessList: [(String, Int)] = []
     @FocusState private var isWordViewFocused: Bool
@@ -59,14 +60,14 @@ struct GameView: View {
                 if isGameCompleted == GameState.ActiveState {
                     VStack {
                         ForEach(0..<15, id: \.self) { index in
-                            WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, triggerScroll: $triggerScroll)
+                            WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, triggerScroll: $triggerScroll, preFilled: gameStats[0].lastIsUnfinished ? getUnfinishedGuessContent(index: index) : "")
                         }
                     }
                 }
                 else {
                     VStack {
                         ForEach(0..<15, id: \.self) { index in
-                            WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, triggerScroll: $triggerScroll, preFilled: getGuessContentIfNeeded(index: index))
+                            WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, triggerScroll: $triggerScroll, preFilled: getFinishedGuessContentIfNeeded(index: index))
                         }
                     }
                 }
@@ -79,7 +80,11 @@ struct GameView: View {
                 }
             }
         }
-        
+        .onChange(of: scenePhase, { oldValue, newValue in
+            if newValue == .background {
+                gameStats[0].saveGameStatsOnClose(gameGuessList:  GuessListModel(guesses: guessList.map { $0.0 }, date: .now))
+            }
+        })
         .onChange(of: isGameCompleted) { oldValue, newValue in
             if newValue == GameState.WonState {
                 confettiBinding += 1
@@ -97,10 +102,19 @@ struct GameView: View {
         }
     }
     
-    func getGuessContentIfNeeded(index: Int) -> String {
+    func getFinishedGuessContentIfNeeded(index: Int) -> String {
         if isGameCompleted != GameState.ActiveState, let guesses = gameStats[0].mostRecentItem?.guesses {
             if guesses.count > index {
                 return guesses[index]
+            }
+        }
+        return ""
+    }
+
+    func getUnfinishedGuessContent(index: Int) -> String {
+        if guessList.isEmpty, let unfinishedContent = gameStats[0].getLastInstance() {
+            if unfinishedContent.guesses.count > index {
+                return unfinishedContent.guesses[index]
             }
         }
         return ""
