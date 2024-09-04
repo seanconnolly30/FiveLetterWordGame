@@ -19,13 +19,13 @@ struct ContentView: View {
     @State private var isSettingsPresented = false
     @State var isInfoPresented = false
     @State private var confettiBinding: Int = 0
-    @State private var refresh = false
     @StateObject var charStateDict: DictionaryStore = DictionaryStore()
-
+    @State private var isGameCompleted : GameState = GameState.ActiveState
+    @State var firstLaunch: Bool = false
     @State var count: Int = 0
     var body: some View {
         NavigationView {
-            GameView(isGameCompleted: getGameCompleted(), confettiBinding: $confettiBinding, refresh: $refresh)
+            GameView(isGameCompleted: $isGameCompleted, confettiBinding: $confettiBinding)
                 .navigationTitle(StringCentral.contentNavTitle)
                 .environmentObject(charStateDict)
                 .frame(alignment: .center)
@@ -57,7 +57,6 @@ struct ContentView: View {
                 )
             }
 
-        .padding([.leading, .trailing])
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $isStatsPresented) {
             StatsView(isGameCompleted: getGameCompleted())
@@ -68,11 +67,20 @@ struct ContentView: View {
         .sheet(isPresented: $isInfoPresented) {
             InfoView()
         }
+
         .onChange(of: scenePhase, { oldValue, newValue in
             if newValue == .active {
-                refresh.toggle()
+                isGameCompleted = getGameCompleted()
+                resetCharStatusDict()
             }
         })
+        .onAppear {
+            if firstLaunch {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                    isInfoPresented = true
+                }
+            }
+        }
     }
     func getGameCompleted() -> GameState {
         context.autosaveEnabled = true
@@ -83,6 +91,7 @@ struct ContentView: View {
         }
         let date = gameStats[0].mostRecentItem?.date ?? Calendar.current.date(byAdding: .hour, value: -25, to: Date())!
         let startOfToday = Calendar.current.startOfDay(for: Date())
+        return GameState.ActiveState
         if date < startOfToday {
             return GameState.ActiveState
         }

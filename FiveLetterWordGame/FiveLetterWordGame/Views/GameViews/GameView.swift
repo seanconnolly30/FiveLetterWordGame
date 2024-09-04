@@ -47,29 +47,38 @@ struct GameView: View {
     @State var activeGuessIndex: Int = 0
     @State var guessList: [(String, Int)] = []
     @FocusState private var isWordViewFocused: Bool
-    @State var isGameCompleted: GameState
+    @Binding var isGameCompleted: GameState
     @Binding var confettiBinding: Int
     @State private var isStatsPresented = false
     @Query private var gameStats: [GameStats]
-    @Binding var refresh: Bool
+    @State private var triggerScroll = false
+    
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            if isGameCompleted == GameState.ActiveState {
-                VStack {
-                    ForEach(0..<15, id: \.self) { index in
-                        WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted)
+        ScrollViewReader { proxy in
+            ScrollView(showsIndicators: false) {
+                if isGameCompleted == GameState.ActiveState {
+                    VStack {
+                        ForEach(0..<15, id: \.self) { index in
+                            WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, triggerScroll: $triggerScroll)
+                        }
                     }
                 }
-            } 
-            else {
-                VStack {
-                    ForEach(0..<15, id: \.self) { index in
-                        WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, preFilled: getGuessContentIfNeeded(index: index))
+                else {
+                    VStack {
+                        ForEach(0..<15, id: \.self) { index in
+                            WordView(myIndex: index, guessList: $guessList, activeGuessIndex: $activeGuessIndex, isGameCompleted: $isGameCompleted, triggerScroll: $triggerScroll, preFilled: getGuessContentIfNeeded(index: index))
+                        }
+                    }
+                }
+            }
+            .onChange(of: triggerScroll) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    withAnimation {
+                        proxy.scrollTo(activeGuessIndex, anchor: .center)
                     }
                 }
             }
         }
-        
         
         .onChange(of: isGameCompleted) { oldValue, newValue in
             if newValue == GameState.WonState {
@@ -78,12 +87,13 @@ struct GameView: View {
                     isStatsPresented = true
                 }
             }
+            if newValue == GameState.ActiveState {
+                activeGuessIndex = 0
+                guessList = []
+            }
         }
         .sheet(isPresented: $isStatsPresented) {
             StatsView(isGameCompleted: isGameCompleted)
-        }
-        .onReceive(NotificationCenter.default.publisher(for: Notification.Name.NSCalendarDayChanged).receive(on: DispatchQueue.main)) {_ in
-            refresh.toggle()
         }
     }
     

@@ -20,6 +20,13 @@ class WordHelper {
         return misspelledRange.location == NSNotFound
     }
     
+    func getWord() -> String {
+        if correctWord.isEmpty {
+            correctWord = loadWord().lowercased()
+        }
+        return correctWord
+    }
+    
     func getNumberOfCorrectLetters(guess: String) -> Int {
         if correctWord.isEmpty {
             correctWord = loadWord().lowercased()

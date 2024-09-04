@@ -22,6 +22,7 @@ struct WordView: View {
     @Binding var guessList: [(String, Int)]
     @Binding var activeGuessIndex: Int
     @Binding var isGameCompleted: GameState
+    @Binding var triggerScroll: Bool
     @EnvironmentObject var charStateDict: DictionaryStore
     @Query private var gameStats: [GameStats]
     var preFilled: String = ""
@@ -81,6 +82,7 @@ struct WordView: View {
                         showError.toggle()
                         isFocused = true
                     }
+                    triggerScroll.toggle()
                 }
             }
         HStack {
@@ -100,7 +102,7 @@ struct WordView: View {
         
         .onAppear {
             focusTextField()
-    }
+        }
         .onChange(of: activeGuessIndex, {
             focusTextField()
         })
