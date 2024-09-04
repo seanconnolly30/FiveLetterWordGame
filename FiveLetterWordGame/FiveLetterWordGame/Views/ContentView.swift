@@ -91,7 +91,6 @@ struct ContentView: View {
         }
         let date = gameStats[0].mostRecentItem?.date ?? Calendar.current.date(byAdding: .hour, value: -25, to: Date())!
         let startOfToday = Calendar.current.startOfDay(for: Date())
-        return GameState.ActiveState
         if date < startOfToday {
             return GameState.ActiveState
         }
