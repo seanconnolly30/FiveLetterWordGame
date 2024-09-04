@@ -13,6 +13,7 @@ struct StatsView: View {
     @Query private var gameStats: [GameStats]
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.openURL) var openURL
+    @Environment(\.scenePhase) private var scenePhase
     var isGameCompleted: GameState
     var body: some View {
         NavigationView {
@@ -70,7 +71,11 @@ struct StatsView: View {
                         .foregroundColor(.gray)
                     Spacer()
                 })
-                
+                .onChange(of: scenePhase, { oldValue, newValue in
+                    if newValue == .background {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                })
                 .navigationBarTitle(StringCentral.statsTitle, displayMode: .inline)
                 .navigationBarItems(leading: Button(action: {
                     presentationMode.wrappedValue.dismiss()

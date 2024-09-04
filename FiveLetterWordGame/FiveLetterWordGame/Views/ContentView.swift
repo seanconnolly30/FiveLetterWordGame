@@ -57,7 +57,6 @@ struct ContentView: View {
                 )
             }
 
-        .padding([.leading, .trailing])
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $isStatsPresented) {
             StatsView(isGameCompleted: getGameCompleted())
@@ -66,12 +65,13 @@ struct ContentView: View {
             SettingsView()
         }
         .sheet(isPresented: $isInfoPresented) {
-                InfoView()
+            InfoView()
         }
 
         .onChange(of: scenePhase, { oldValue, newValue in
             if newValue == .active {
                 isGameCompleted = getGameCompleted()
+                resetCharStatusDict()
             }
         })
         .onAppear {
@@ -91,6 +91,7 @@ struct ContentView: View {
         }
         let date = gameStats[0].mostRecentItem?.date ?? Calendar.current.date(byAdding: .hour, value: -25, to: Date())!
         let startOfToday = Calendar.current.startOfDay(for: Date())
+        return GameState.ActiveState
         if date < startOfToday {
             return GameState.ActiveState
         }
